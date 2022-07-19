@@ -1,88 +1,140 @@
-import React, { useContext, useEffect, useReducer } from 'react'
-import reducer from "../context/Film_reducer"
-import fetchItem from '../tools/fetchItem'
+import { logDOM } from '@testing-library/react';
+import React, { useContext } from 'react'
+import { v4 as uuidv4 } from 'uuid';
+import useLocalStorage from '../tools/useLokalStorageHook';
+import moment from 'moment';
 
 
 
 
-
-
-const initLocalStorage = () => {
-    let data = localStorage.getItem('video');
-    if (data) return JSON.parse(localStorage.getItem('video'));
-    else return [];
-};
-
-
-
-const initialState = {
-    movies: initLocalStorage(),
-    provider: '',
-    vimeo_movies: [],
-    alert: { show: false, type: 'success', msg: '' },
-    isLoading: false,
-};
 
 
 
 
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
-
-    const [state, dispatch] = useReducer(reducer, initialState);
-
-
-    useEffect(() => {
-        localStorage.setItem('movies', JSON.stringify(state.movies));
-    }, [state.movies]);
+    const [videos, setVideos] = useLocalStorage("videos", [])
 
 
+    const videoLS = videos
+    console.log(videos);
 
-    const isPresent = item =>
-        state.movies.findIndex(movie => movie.movieUrl === item.movieUrl) !== -1;
+    async function getYtObject(newProvider, newId, inputSearch) {
 
 
-    const addItem = (inputSearch, provider) => {
-        dispatch({ type: "GET_MOVIE_BEGIN" });
-        fetchItem(inputSearch, provider)
-            .then(newItem => {
-                if (isPresent(newItem)) {
-                    dispatch({ type: "GET_MOVIE_END" });
-                    return setAlert(
-                        true,
-                        'The movie is already in your list!',
-                        'warning',
 
-                    );
-                }
-                dispatch({ type: "ADD_MOVIE", payload: newItem });
-                setAlert(
-                    true,
-                    'Movie successfully added to the list!',
-                    'success',
 
-                );
-                dispatch({ type: "GET_MOVIE_END" });
-            })
+        const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${"AIzaSyAdhgdhqdLwgz6ow0-jVb-08MJbsUDgPlo"}
+        &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
 
+        // const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
+
+        const response = await fetch(fetchUrl);
+
+        const data = await response.json()
+
+        console.log(data);
+        destructurizeYoutubeObject(data)
+
+
+
+        return
+
+    }
+
+    //destrukturyzacja YT
+
+    const destructurizeYoutubeObject = (data) => {
+        const {
+            id,
+            snippet: { title },
+            snippet: {
+                thumbnails: { default: {
+                    url,
+                } }
+
+            },
+
+
+
+            statistics: { viewCount, likeCount },
+        } = data.items[0];
+
+
+        console.log(data.items[0]);
+
+        const newItem = {
+            id,
+            idLocalStorage: uuidv4(),
+            title,
+            viewCount,
+            likeCount,
+            provider: 'YOUTUBE',
+            imageUrl: url,
+            additionDate: moment().add(3, 'days').calendar(),
+            favourite: false,
+        }
+        console.log(url);
+        console.log(moment().startOf('hour').fromNow());
+        if (videos.find(item => item.id === newItem.id)) {
+            return
+
+        }
+        setVideos([...videos, newItem])
+
+        return
     };
 
 
-    const setAlert = (
-        show = false,
-        msg = '',
-        type = state.alert.type,
+    async function getVimeoObject(newProvider, newId, inputSearch) {
 
-    ) => {
-        dispatch({ type: "SET_ALERT", payload: { show, msg, type } });
+
+        const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
+
+        // const movieUrl = `https://www.vimeo.com/${videoId}`;
+
+        const response = await fetch(fetchUrl);
+
+        const data = await response.json()
+        console.log(data);
+        destructurizeVimeoObject(data)
+
+        return
+    }
+
+
+    const destructurizeVimeoObject = (data,) => {
+        const {
+
+            title,
+            thumbnail_url,
+            video_id,
+
+        } = data;
+        console.log(data);
+
+        // return { title, id, upload_date }
+
+        const newItem = {
+            id: video_id,
+            idLocalStorage: uuidv4(),
+            title,
+            imageUrl: thumbnail_url,
+            provider: "VIMEO",
+            additionDate: moment().add(3, 'days').calendar(),
+            favourite: false,
+        };
+        if (videos.find(item => item.id !== newItem.id)) {
+            console.log("dupaaaaaaaa");
+
+
+        }
+        setVideos([...videos, newItem])
+        console.log(moment().startOf('hour').fromNow());
+        return
+
     };
 
-
-    const removeFilm = id => {
-        dispatch({ type: "REMOVE_MOVIE", payload: id });
-    };
-    const clearfilms = () => dispatch({ type: "CLEAR_ALL" });
-    const toggleFavourites = id => dispatch({ type: "TOGGLE_FAV", payload: id });
 
 
 
@@ -91,11 +143,14 @@ export const VideoProvider = ({ children }) => {
     return (
         <VideoContext.Provider
             value={{
-                ...state,
-                addItem,
-                removeFilm,
-                toggleFavourites,
-                clearfilms,
+                videos,
+                getYtObject,
+                getVimeoObject,
+                destructurizeYoutubeObject,
+                useLocalStorage,
+                videoLS,
+                // toggleFavourites,
+                // clearfilms,
 
             }
             }>

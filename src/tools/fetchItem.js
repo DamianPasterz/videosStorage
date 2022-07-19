@@ -33,6 +33,7 @@ const fetchItem = async (provider, videoId) => {
 
 	const response = await fetch(fetchUrl);
 	const data = await response.json();
+	console.log(data);
 	return formItem(data, provider, movieUrl);
 };
 

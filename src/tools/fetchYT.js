@@ -13,6 +13,8 @@ export const getUrlYT = videoId => {
 };
 
 export const formItemYT = (data, provider, movieUrl) => {
+	console.log(data);
+
 	// destructure response
 	const {
 		snippet: {
@@ -26,7 +28,7 @@ export const formItemYT = (data, provider, movieUrl) => {
 	} = data.items[0];
 
 	const newItem = {
-		id: new Date().getTime(),
+		// id,
 		title,
 		provider,
 		movieUrl,

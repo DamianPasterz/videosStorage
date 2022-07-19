@@ -7,7 +7,7 @@ import { VideoProvider } from './context/Video_context';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <VideoProvider>
+    <VideoProvider >
       <App />
     </VideoProvider>
   </React.StrictMode>
