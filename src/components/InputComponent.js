@@ -43,8 +43,6 @@ function InputComponent() {
             newProvider = "VIMEO"
             setProvider(newProvider)
             setVideoId(newId)
-            console.log(newProvider);
-            console.log(newId);
             return getVimeoObject(newProvider, newId, inputSearch)
 
         }
@@ -54,7 +52,6 @@ function InputComponent() {
             newProvider = "VIMEO"
             setProvider(newProvider)
             setVideoId(newId)
-            console.log("VImeo URL ");
             return getVimeoObject(newProvider, newId, inputSearch)
 
         }
@@ -73,8 +70,6 @@ function InputComponent() {
             newProvider = "YOUTUBE"
             setProvider(newProvider)
             setVideoId(newId)
-            console.log(newId);
-            console.log("YT url ");
             return getYtObject(newProvider, newId, inputSearch)
 
         }

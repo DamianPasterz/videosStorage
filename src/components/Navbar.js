@@ -1,18 +1,11 @@
 import React, { useEffect } from 'react';
 import { useVideoContext } from '../context/Video_context';
-
 import "../index.css"
 
 
 const NavbarComponent = () => {
     const { filterAz, filterZa, filterUploadDate } = useVideoContext();
     const { setVideos } = useVideoContext();
-
-    // useEffect(() => {
-    //     console.log("render")
-    // }, [videos])
-
-
 
 
     function HandleClearAll() {

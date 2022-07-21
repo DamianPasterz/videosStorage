@@ -4,23 +4,13 @@ import useLocalStorage from '../tools/useLokalStorageHook';
 import moment from 'moment';
 
 
-
-
-
-
-
-
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
     const [videos, setVideos] = useLocalStorage("videos", [])
 
     let sortVideos = [...videos]
 
-
-
-
     useEffect(() => {
-        console.log("render")
     }, [videos])
 
 
@@ -30,7 +20,6 @@ export const VideoProvider = ({ children }) => {
     function filterAz() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
         setVideos(sortVideos)
-
     }
 
 
@@ -41,11 +30,11 @@ export const VideoProvider = ({ children }) => {
     }
 
 
-    // filter AZ
+    // filter Upload date
     function filterUploadDate() {
-        sortVideos = sortVideos.sort((a, b) => (a.additionDate.toLowerCase() > b.additionDate.toLowerCase()) ? 1 : (b.additionDate.toLowerCase() > a.additionDate.toLowerCase()) ? -1 : 0)
+        sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
         setVideos(sortVideos)
-        return setVideos(sortVideos)
+
     }
 
     async function getYtObject(newProvider, newId, inputSearch) {
@@ -55,43 +44,28 @@ export const VideoProvider = ({ children }) => {
 
         const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${"AIzaSyAdhgdhqdLwgz6ow0-jVb-08MJbsUDgPlo"}
         &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
-
         const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
 
         const response = await fetch(fetchUrl);
-
         const data = await response.json()
 
-        console.log(data);
         destructurizeYoutubeObject(data, movieUrl)
 
 
-
-        return
 
     }
 
     //destrukturyzacja YT
 
     const destructurizeYoutubeObject = (data, movieUrl) => {
-        console.log(movieUrl);
         const {
             id,
             snippet: { title },
-            snippet: {
-                thumbnails: { default: {
-                    url,
-                } }
-
-            },
-
+            snippet: { thumbnails: { default: { url, } } },
 
 
             statistics: { viewCount, likeCount },
         } = data.items[0];
-
-
-        console.log(data.items[0]);
 
         const newItem = {
             id,
@@ -105,46 +79,33 @@ export const VideoProvider = ({ children }) => {
             additionDate: moment().add(3, 'days').calendar(),
             favourite: false,
         }
-
         if (videos.find(item => item.id === newItem.id)) {
             return
-
         }
         setVideos([...videos, newItem])
-
-        return console.log(newItem);
     };
 
 
     async function getVimeoObject(newProvider, newId, inputSearch) {
 
-
         const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
-
         const movieUrl = `https://www.vimeo.com/${newId}`;
 
         const response = await fetch(fetchUrl);
-
         const data = await response.json()
-        console.log(data);
+
         destructurizeVimeoObject(data, movieUrl)
 
-        return
     }
 
 
     const destructurizeVimeoObject = (data, movieUrl) => {
         const {
-
             title,
             thumbnail_url,
             video_id,
 
         } = data;
-        console.log(data);
-        console.log(video_id);
-
-
 
         const newItem = {
             id: video_id,
@@ -157,10 +118,9 @@ export const VideoProvider = ({ children }) => {
             favourite: false,
         };
 
-        console.log(newItem);
-        console.log(videos);
         if (videos.find(item => item.id === newItem.id)) {
-            return console.log("już jest");
+            return alert("this movie already exists");
+
         }
 
         setVideos([...videos, newItem])
@@ -177,15 +137,6 @@ export const VideoProvider = ({ children }) => {
         setVideos([deletedVideos])
     }
 
-    // // filter AZ
-    // function filterAz(title) {
-    //     let videosAZ = videos.sort((a, b) => a.video.title - b.video.title)
-    //     console.log(`sortaz${videosAZ}`);
-    //     setVideos(videosAZ)
-    //     return
-    // }
-
-
 
     return (
         <VideoContext.Provider
@@ -194,22 +145,12 @@ export const VideoProvider = ({ children }) => {
                 getYtObject,
                 getVimeoObject,
                 destructurizeYoutubeObject,
-                // useLocalStorage,
-                // filterAz,
                 setVideos,
                 videos,
                 deleteVideo,
                 filterAz,
                 filterZa,
                 filterUploadDate
-
-
-
-
-
-                // toggleFavourites,
-                // clearfilms,
-
             }
             }>
             {children}
