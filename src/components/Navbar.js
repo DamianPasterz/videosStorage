@@ -5,7 +5,7 @@ import "../index.css"
 
 
 const NavbarComponent = () => {
-    const { filterAz, filterZa } = useVideoContext();
+    const { filterAz, filterZa, filterUploadDate } = useVideoContext();
     const { setVideos } = useVideoContext();
 
     // useEffect(() => {
@@ -18,33 +18,6 @@ const NavbarComponent = () => {
     function HandleClearAll() {
         setVideos([])
     }
-    // // function HandleFilterAz() {
-    // //     filterAz(videos)
-    // //     // setVideos(videos)
-    // // }
-
-    // // function HandleFilterZa() {
-    // //     filterZa(videos)
-    // //     // setVideos(videos)
-    // // }
-
-    // // filter AZ
-    // function filterAz() {
-    //     let videosAZ = videos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
-    //     setVideos(videosAZ)
-    //     // return setVideos(videosAZ)
-    // }
-
-
-    // // filter ZA
-    // function filterZa() {
-    //     console.log(videos);
-    //     videos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
-    //     console.log(videos);
-
-    //     setVideos(videos)
-    // }
-
 
     return (
 
@@ -61,7 +34,7 @@ const NavbarComponent = () => {
             <div className='nawbar__btn' onClick={filterZa} >
                 SORT Z-A
             </div>
-            <div className='nawbar__btn' >
+            <div className='nawbar__btn' onClick={filterUploadDate} >
                 SORT BY UPLOAD DATE
             </div>
             <div className='nawbar__btn' >

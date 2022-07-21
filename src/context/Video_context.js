@@ -30,17 +30,22 @@ export const VideoProvider = ({ children }) => {
     function filterAz() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
         setVideos(sortVideos)
-        return setVideos(sortVideos)
+
     }
 
 
     // filter ZA
     function filterZa() {
-        console.log(videos);
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
-        console.log(sortVideos);
-
         setVideos(sortVideos)
+    }
+
+
+    // filter AZ
+    function filterUploadDate() {
+        sortVideos = sortVideos.sort((a, b) => (a.additionDate.toLowerCase() > b.additionDate.toLowerCase()) ? 1 : (b.additionDate.toLowerCase() > a.additionDate.toLowerCase()) ? -1 : 0)
+        setVideos(sortVideos)
+        return setVideos(sortVideos)
     }
 
     async function getYtObject(newProvider, newId, inputSearch) {
@@ -195,7 +200,8 @@ export const VideoProvider = ({ children }) => {
                 videos,
                 deleteVideo,
                 filterAz,
-                filterZa
+                filterZa,
+                filterUploadDate
 
 
 
