@@ -1,5 +1,4 @@
-import { logDOM } from '@testing-library/react';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import useLocalStorage from '../tools/useLokalStorageHook';
 import moment from 'moment';
@@ -15,9 +14,34 @@ export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
     const [videos, setVideos] = useLocalStorage("videos", [])
 
+    let sortVideos = [...videos]
 
-    const videoLS = videos
-    console.log(videos);
+
+
+
+    useEffect(() => {
+        console.log("render")
+    }, [videos])
+
+
+
+
+    // filter AZ
+    function filterAz() {
+        sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
+        setVideos(sortVideos)
+        return setVideos(sortVideos)
+    }
+
+
+    // filter ZA
+    function filterZa() {
+        console.log(videos);
+        sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
+        console.log(sortVideos);
+
+        setVideos(sortVideos)
+    }
 
     async function getYtObject(newProvider, newId, inputSearch) {
 
@@ -27,14 +51,14 @@ export const VideoProvider = ({ children }) => {
         const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${"AIzaSyAdhgdhqdLwgz6ow0-jVb-08MJbsUDgPlo"}
         &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
 
-        // const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
+        const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
 
         const response = await fetch(fetchUrl);
 
         const data = await response.json()
 
         console.log(data);
-        destructurizeYoutubeObject(data)
+        destructurizeYoutubeObject(data, movieUrl)
 
 
 
@@ -44,7 +68,8 @@ export const VideoProvider = ({ children }) => {
 
     //destrukturyzacja YT
 
-    const destructurizeYoutubeObject = (data) => {
+    const destructurizeYoutubeObject = (data, movieUrl) => {
+        console.log(movieUrl);
         const {
             id,
             snippet: { title },
@@ -70,19 +95,19 @@ export const VideoProvider = ({ children }) => {
             viewCount,
             likeCount,
             provider: 'YOUTUBE',
+            aUrl: movieUrl,
             imageUrl: url,
             additionDate: moment().add(3, 'days').calendar(),
             favourite: false,
         }
-        console.log(url);
-        console.log(moment().startOf('hour').fromNow());
+
         if (videos.find(item => item.id === newItem.id)) {
             return
 
         }
         setVideos([...videos, newItem])
 
-        return
+        return console.log(newItem);
     };
 
 
@@ -91,19 +116,19 @@ export const VideoProvider = ({ children }) => {
 
         const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
 
-        // const movieUrl = `https://www.vimeo.com/${videoId}`;
+        const movieUrl = `https://www.vimeo.com/${newId}`;
 
         const response = await fetch(fetchUrl);
 
         const data = await response.json()
         console.log(data);
-        destructurizeVimeoObject(data)
+        destructurizeVimeoObject(data, movieUrl)
 
         return
     }
 
 
-    const destructurizeVimeoObject = (data,) => {
+    const destructurizeVimeoObject = (data, movieUrl) => {
         const {
 
             title,
@@ -112,8 +137,9 @@ export const VideoProvider = ({ children }) => {
 
         } = data;
         console.log(data);
+        console.log(video_id);
 
-        // return { title, id, upload_date }
+
 
         const newItem = {
             id: video_id,
@@ -122,33 +148,59 @@ export const VideoProvider = ({ children }) => {
             imageUrl: thumbnail_url,
             provider: "VIMEO",
             additionDate: moment().add(3, 'days').calendar(),
+            aUrl: movieUrl,
             favourite: false,
         };
-        if (videos.find(item => item.id !== newItem.id)) {
-            console.log("dupaaaaaaaa");
 
-
+        console.log(newItem);
+        console.log(videos);
+        if (videos.find(item => item.id === newItem.id)) {
+            return console.log("już jest");
         }
+
         setVideos([...videos, newItem])
-        console.log(moment().startOf('hour').fromNow());
-        return
+
+
 
     };
 
+    function deleteVideo(videos, idLocalStorage) {
+        let deletedVideos = videos.filter((element) => {
 
+            return element.idLocalStorage !== idLocalStorage
+        })
+        setVideos([deletedVideos])
+    }
 
+    // // filter AZ
+    // function filterAz(title) {
+    //     let videosAZ = videos.sort((a, b) => a.video.title - b.video.title)
+    //     console.log(`sortaz${videosAZ}`);
+    //     setVideos(videosAZ)
+    //     return
+    // }
 
 
 
     return (
         <VideoContext.Provider
             value={{
-                videos,
+                ...videos,
                 getYtObject,
                 getVimeoObject,
                 destructurizeYoutubeObject,
-                useLocalStorage,
-                videoLS,
+                // useLocalStorage,
+                // filterAz,
+                setVideos,
+                videos,
+                deleteVideo,
+                filterAz,
+                filterZa
+
+
+
+
+
                 // toggleFavourites,
                 // clearfilms,
 

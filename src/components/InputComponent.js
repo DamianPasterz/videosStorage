@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import { useVideoContext } from "../context/Video_context"
-
+import "../index.css"
 import getVideoId from 'get-video-id';
 
-
-import {
-    Spinner,
-} from 'reactstrap';
+;
 
 
 function InputComponent() {
@@ -95,7 +92,7 @@ function InputComponent() {
     return (
         <div className='input__contanier'>
             <form onSubmit={handleSubmit}>
-                <input
+                <input className="input__input"
                     type='text'
                     name='url'
                     id='url'
@@ -110,7 +107,7 @@ function InputComponent() {
 
 
                     }} />
-                <button disabled={isDisabled} >
+                <button className="btn" disabled={isDisabled} >
                     Add
                 </button>
                 <div>
