@@ -27,11 +27,11 @@ function VideoCard({ image, title, channel, views, likes, additionDate, idLocalS
                     <p>addition date: {additionDate}</p>
                     <p> favourite: {favourite}</p>
 
-                    {/* {idLocalStorage} */}
+
 
                 </div>
             </div>
-            {/* <button onClick={() => { deleteVideo(idLocalStorage) }} >delete1</button> */}
+
 
         </div>
     )

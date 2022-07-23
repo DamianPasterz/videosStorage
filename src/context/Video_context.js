@@ -6,34 +6,56 @@ import moment from 'moment';
 
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
-    const [videos, setVideos] = useLocalStorage("videos", [])
+    const [videos, setVideos] = useLocalStorage("videos", []);
+    const [status, setStatus] = useState('all');
+    const [filterVideos, setFilterVideos] = useState([]);
 
-    let sortVideos = [...videos]
+
+    let sortVideos = [...filterVideos]
+
+
+
+
+
+
+
 
     useEffect(() => {
-    }, [videos])
+        switch (status) {
+            case 'favourite':
+                setFilterVideos(videos.filter(video => video.favourite === true));
+                break;
+            default:
+                setFilterVideos(videos);
+                break;
+        }
 
+    }, [videos, status]);
+
+    // const filterHandler = () => {
+
+    // }
 
 
 
     // filter AZ
     function filterAz() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
-        setVideos(sortVideos)
+        setFilterVideos(sortVideos)
     }
 
 
     // filter ZA
     function filterZa() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
-        setVideos(sortVideos)
+        setFilterVideos(sortVideos)
     }
 
 
     // filter Upload date
     function filterUploadDate() {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
-        setVideos(sortVideos)
+        setFilterVideos(sortVideos)
 
     }
 
@@ -77,7 +99,7 @@ export const VideoProvider = ({ children }) => {
             aUrl: movieUrl,
             imageUrl: url,
             additionDate: moment().add(3, 'days').calendar(),
-            favourite: false,
+            favourite: true,
         }
         if (videos.find(item => item.id === newItem.id)) {
             return
@@ -150,7 +172,10 @@ export const VideoProvider = ({ children }) => {
                 deleteVideo,
                 filterAz,
                 filterZa,
-                filterUploadDate
+                filterUploadDate,
+                setStatus,
+                filterVideos,
+
             }
             }>
             {children}

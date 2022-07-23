@@ -12,14 +12,15 @@ import "../index.css"
 
 
 function RecomendetVideo() {
-    const { videos, setVideos } = useVideoContext();
+    const { videos, setVideos, filterVideos } = useVideoContext();
     // const { deleteVideo } = useVideoContext();
 
 
 
     const [isOpen, setIsOpen] = useState(false)
     const [currentMovie, setCurrentMovie] = useState()
-    const [favourite, setFavourite] = useState(false)
+    // const [favourite, setFavourite] = useState(false)
+    // const [favouriteVideos, setFavouriteVideos] = useState([])
 
 
     function HandleDelete(idLocalStorage) {
@@ -30,9 +31,43 @@ function RecomendetVideo() {
         })
         setVideos(deletedVideos)
     }
-    function Handlefav(idLocalStorage) {
 
-        // setFavourite(!favourite)
+
+
+    // const Handlefav = () => {
+    //     setFavouriteVideos(videos.map((item) => {
+
+    //         if (item.idLocalStorage === videos.idLocalStorage) {
+    //             console.log(item.title);
+    //             return {
+    //                 ...item, favourite: !item.favourite
+    //             }
+
+
+
+    //         }
+    //         return item
+    //     }))
+
+    //     console.log(favourite)
+    // setFavourite(!favourite)
+
+    // return {
+    //     ...item, favourite: !item.favourite
+    // }
+
+    // }
+
+
+    function togleFavorite(id) {
+        const favoritesVideos = [...videos].map((video) => {
+            if (video.idLocalStorage === id) {
+                video.favourite = !video.favourite
+            }
+            return video
+        })
+        setVideos(favoritesVideos)
+
     }
 
 
@@ -41,15 +76,19 @@ function RecomendetVideo() {
             <NavbarComponent />
 
             <div className='recomendedVideos__videos'>
-                {videos.map(video => {
+                {filterVideos.map((video, index) => {
                     return (
-                        <div className='recomendedVideos__videos__videos' key={video.idLocalStorage}>
+                        <div className='recomendedVideos__videos__videos' key={index} >
                             <div onClick={() => {
                                 setIsOpen(true)
                                 setCurrentMovie(video.aUrl)
                             }} >
                                 <VideoCard
+                                    video={video}
 
+                                    setVideos={setVideos}
+                                    vodeos={videos}
+                                    key={video.idLocalStorage}
                                     image={video.imageUrl}
 
                                     title={video.title}
@@ -58,21 +97,27 @@ function RecomendetVideo() {
                                     likes={video.likeCount}
                                     additionDate={video.additionDate}
                                     url={video.aUrl}
-                                    favourite={favourite ? "tak" : "nie"}
-                                    // button={deleteVideo}
+                                    favourite={video.favourite}
+
                                     idLocalStorage={video.idLocalStorage}
 
-                                />
+                                >
+
+                                </VideoCard>
 
                             </div>
 
-
+                            <input type="checkbox" onChange={() => togleFavorite(video.idLocalStorage)} checked={video.favourite} />
                             <button className='btn' onClick={() => { HandleDelete(video.idLocalStorage) }}>
                                 DELETE
                             </button>
-                            <button className='btn__fav' onClick={() => { Handlefav(video.favourite) }}>
+                            {/* <button className='btn__fav' onClick={() => {
+                                Handlefav(video.idLocalStorage)
+                                // setCurrentMovie(video.idLocalStorage)
+
+                            }}>
                                 FAVOURITE
-                            </button>
+                            </button> */}
                         </div>
 
 
