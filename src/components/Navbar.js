@@ -5,17 +5,25 @@ import "../index.css"
 
 const NavbarComponent = () => {
     const { filterAz, filterZa, filterUploadDate } = useVideoContext();
-    const { setVideos } = useVideoContext();
+    const { setVideos, setStatus } = useVideoContext();
 
 
     function HandleClearAll() {
         setVideos([])
     }
 
+    const HandleAll = () => {
+        setStatus("all")
+    }
+
+    const handleStatus = (e) => {
+        setStatus("favourite")
+    }
+
     return (
 
         <div className='nawbar__body'>
-            <div className='nawbar__logo'>
+            <div className='nawbar__btn' onClick={HandleAll}>
                 <p> Movie library</p>
             </div>
             <div className='nawbar__btn' onClick={HandleClearAll} >
@@ -30,7 +38,7 @@ const NavbarComponent = () => {
             <div className='nawbar__btn' onClick={filterUploadDate} >
                 SORT BY UPLOAD DATE
             </div>
-            <div className='nawbar__btn' >
+            <div className='nawbar__btn' onClick={handleStatus} >
 
                 FAVOURITE
             </div>
