@@ -2,11 +2,12 @@ import React from 'react'
 import ReactDom from 'react-dom'
 
 const MODAL_STYLES = {
+
     position: 'fixed',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: '#FFF',
+    backgroundColor: 'lightgrey',
     padding: '50px',
     borderRadius: "15px",
     zIndex: 1000
@@ -29,11 +30,8 @@ export default function Modal({ open, children, onClose }) {
         <>
             <div style={OVERLAY_STYLES} />
             <div style={MODAL_STYLES}>
-
-
+                <button className='modal_btn' onClick={onClose}>X</button>
                 {children},
-                <button className='btn' onClick={onClose}>Close Modal</button>
-
             </div>
         </>,
         document.getElementById('portal')

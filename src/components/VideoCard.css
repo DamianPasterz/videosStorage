@@ -1,6 +1,10 @@
 .videoCard {
+    background-color: brown;
     margin-bottom: 40px;
     width:  270px;
+}
+#list {
+    background-color: brown;
 }
 
 .videoCard__thumbnail {
@@ -8,9 +12,24 @@
     width: 250px;
 }
 
-.videoCard__info {
+/* .videoCard__info {
     display: flex;
     margin-top: 10px;
+    padding-right: 30px;
+} */
+
+
+#list.videoCard__info {
+    display: flex;
+    margin-top: 10px;
+    padding-right: 30px;
+}
+
+
+#grid.videoCard__info {
+    display: flex;
+    
+    margin-top: 100px;
     padding-right: 30px;
 }
 
@@ -29,7 +48,3 @@
     color: gray;
 }
 
-.videoCard__avatar {
-    height: 30px !important;
-    width: 30px !important;
-}

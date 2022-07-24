@@ -2,23 +2,21 @@ import React, { useContext, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import useLocalStorage from '../tools/useLokalStorageHook';
 import moment from 'moment';
-
+import demo from '../tools/demo'
 
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
     const [videos, setVideos] = useLocalStorage("videos", []);
     const [status, setStatus] = useState('all');
     const [filterVideos, setFilterVideos] = useState([]);
-
+    const [view, setView] = useState("grid")
+    const [isOpen, setIsOpen] = useState(false)
 
     let sortVideos = [...filterVideos]
 
-
-
-
-
-
-
+    function HandleDemo() {
+        setVideos(demo)
+    }
 
     useEffect(() => {
         switch (status) {
@@ -31,20 +29,11 @@ export const VideoProvider = ({ children }) => {
         }
 
     }, [videos, status]);
-
-    // const filterHandler = () => {
-
-    // }
-
-
-
     // filter AZ
     function filterAz() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
-
-
     // filter ZA
     function filterZa() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
@@ -56,36 +45,23 @@ export const VideoProvider = ({ children }) => {
     function filterUploadDate() {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
-
     }
 
     async function getYtObject(newProvider, newId, inputSearch) {
-
-
-
-
         const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${"AIzaSyAdhgdhqdLwgz6ow0-jVb-08MJbsUDgPlo"}
         &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
         const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
-
         const response = await fetch(fetchUrl);
         const data = await response.json()
 
         destructurizeYoutubeObject(data, movieUrl)
-
-
-
     }
-
     //destrukturyzacja YT
-
     const destructurizeYoutubeObject = (data, movieUrl) => {
         const {
             id,
             snippet: { title },
             snippet: { thumbnails: { default: { url, } } },
-
-
             statistics: { viewCount, likeCount },
         } = data.items[0];
 
@@ -99,7 +75,7 @@ export const VideoProvider = ({ children }) => {
             aUrl: movieUrl,
             imageUrl: url,
             additionDate: moment().add(3, 'days').calendar(),
-            favourite: true,
+            favourite: false,
         }
         if (videos.find(item => item.id === newItem.id)) {
             return
@@ -109,24 +85,18 @@ export const VideoProvider = ({ children }) => {
 
 
     async function getVimeoObject(newProvider, newId, inputSearch) {
-
         const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
         const movieUrl = `https://www.vimeo.com/${newId}`;
-
         const response = await fetch(fetchUrl);
         const data = await response.json()
-
         destructurizeVimeoObject(data, movieUrl)
 
     }
-
-
     const destructurizeVimeoObject = (data, movieUrl) => {
         const {
             title,
             thumbnail_url,
             video_id,
-
         } = data;
 
         const newItem = {
@@ -139,21 +109,15 @@ export const VideoProvider = ({ children }) => {
             aUrl: movieUrl,
             favourite: false,
         };
-
         if (videos.find(item => item.id === newItem.id)) {
             return alert("this movie already exists");
 
         }
-
         setVideos([...videos, newItem])
-
-
-
     };
 
     function deleteVideo(videos, idLocalStorage) {
         let deletedVideos = videos.filter((element) => {
-
             return element.idLocalStorage !== idLocalStorage
         })
         setVideos([deletedVideos])
@@ -175,6 +139,12 @@ export const VideoProvider = ({ children }) => {
                 filterUploadDate,
                 setStatus,
                 filterVideos,
+                view,
+                setView,
+                isOpen,
+                setIsOpen,
+                HandleDemo,
+
 
             }
             }>

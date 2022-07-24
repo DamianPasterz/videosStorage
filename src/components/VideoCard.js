@@ -1,5 +1,10 @@
 import React from 'react'
 import '../index.css'
+import { FaTrashAlt } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+
+
+
 import { useVideoContext } from "../context/Video_context"
 
 
@@ -9,31 +14,49 @@ import { useVideoContext } from "../context/Video_context"
 
 
 function VideoCard({ image, title, channel, views, likes, additionDate, idLocalStorage, favourite }) {
-    const { videos, setCurrentMovie } = useVideoContext();
+    const { setVideos, view, setIsOpen, videos } = useVideoContext();
 
 
+    function HandleDelete(idLocalStorage) {
+        let deletedVideos = videos.filter((element) => {
+            return element.idLocalStorage !== idLocalStorage
+        })
+        setVideos(deletedVideos)
+    }
 
+    function togleFavorite(id) {
+        const favoritesVideos = [...videos].map((video) => {
+            if (video.idLocalStorage === id) {
+                video.favourite = !video.favourite
+            }
+            return video
+        })
+        setVideos(favoritesVideos)
+    }
     return (
-        <div className='videoCard' key={videos.idLocalStorage} onClick={() => { setCurrentMovie(idLocalStorage) }} >
-            <img className='videoCard__thumbnail' src={image} alt="img" />
-            <div className='videoCard__info'>
-
-
-                <div className='videoCard__text' >
+        <>
+            <div className='videoCard' key={videos.idLocalStorage} id={view}>
+                <img className='videoCard__thumbnail' id={view} src={image} alt="img" onClick={() => {
+                    setIsOpen(true)
+                }} />
+                <div className='videoCard__text' id={view} >
                     <h4>{title}</h4>
-                    <p>{channel}</p>
-                    <p>views{views} </p>
-                    <p>likes{likes}</p>
+                    {views ? <p>VIEWS: {views} </p> : null}
+                    {likes ? <p>LIKES: {likes}</p> : null}
                     <p>addition date: {additionDate}</p>
-                    <p> favourite: {favourite}</p>
-
-
-
+                </div>
+                <div className='videoCard__action' id={view}>
+                    <FaHeart className='btn' size='2rem'
+                        color={favourite ? 'red' : 'black'}
+                        onClick={() => togleFavorite(idLocalStorage)}
+                    />
+                    <FaTrashAlt className='btn'
+                        onClick={() => {
+                            HandleDelete(idLocalStorage)
+                        }} />
                 </div>
             </div>
-
-
-        </div>
+        </>
     )
 }
 
