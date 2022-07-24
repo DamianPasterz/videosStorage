@@ -4,6 +4,9 @@ import useLocalStorage from '../tools/useLokalStorageHook';
 import moment from 'moment';
 import demo from '../tools/demo'
 
+
+
+
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
     const [videos, setVideos] = useLocalStorage("videos", []);
@@ -48,7 +51,8 @@ export const VideoProvider = ({ children }) => {
     }
 
     async function getYtObject(newProvider, newId, inputSearch) {
-        const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${"AIzaSyAdhgdhqdLwgz6ow0-jVb-08MJbsUDgPlo"}
+        const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
+        const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${api_key}
         &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
         const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
         const response = await fetch(fetchUrl);

@@ -1,3 +1,28 @@
+# VideoStorage
+
+App MyMovies allows you to keep all your favourite movies in one place.
+All you need to do is to enter your movie's basic data: URL or ID.
+
+### How does it work?
+
+1. The url or id is subject to id extraction and the corresponding api request is made.
+2. The URL or ID is validated before API request
+3. The response is formed into the appropriate movie object and saved in the Video_Context state as part of the 'video' array.
+4. The application allows you to sort the videos boards and view the results
+5. The application has the ability to display demo data that can be deleted. demo.js file
+6. Possibility to add movies to "favorites"
+
+### Styling
+
+- global index.css for customization
+
+### Additional libraries
+
+- react-icon
+- react-moment
+- react-player
+- uuidv4
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
