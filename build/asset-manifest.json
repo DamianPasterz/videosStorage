@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/videosStorage/static/css/main.5a5a4a7d.css",
+    "main.js": "/videosStorage/static/js/main.194e9aa6.js",
+    "index.html": "/videosStorage/index.html",
+    "main.5a5a4a7d.css.map": "/videosStorage/static/css/main.5a5a4a7d.css.map",
+    "main.194e9aa6.js.map": "/videosStorage/static/js/main.194e9aa6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5a5a4a7d.css",
+    "static/js/main.194e9aa6.js"
+  ]
+}
