@@ -44,9 +44,15 @@ export const VideoProvider = ({ children }) => {
     }
 
 
-    // filter Upload date
-    function filterUploadDate() {
+    // filter Upload date new
+    function filterUploadDateNew() {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
+        setFilterVideos(sortVideos)
+    }
+
+    // filter Upload date old
+    function filterUploadDateOld() {
+        sortVideos = sortVideos.sort((a, b) => (a.additionDate < b.additionDate) ? 1 : (b.additionDate < a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
@@ -140,7 +146,8 @@ export const VideoProvider = ({ children }) => {
                 deleteVideo,
                 filterAz,
                 filterZa,
-                filterUploadDate,
+                filterUploadDateNew,
+                filterUploadDateOld,
                 setStatus,
                 filterVideos,
                 view,

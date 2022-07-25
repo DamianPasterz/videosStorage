@@ -5,11 +5,10 @@ import Pagination from "./Pagination"
 import { useVideoContext } from '../context/Video_context';
 import Modal from '../tools/modal';
 import ReactPlayer from 'react-player';
-import NavbarComponent from "./Navbar"
 import "../index.css"
 
 
-function RecomendetVideo() {
+function PageVideo() {
     const { videos, filterVideos, view, setIsOpen, isOpen, } = useVideoContext();
     const [currentMovie, setCurrentMovie] = useState()
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,12 +26,11 @@ function RecomendetVideo() {
         setCurrentPage(1)
     }, [filterVideos])
     return (
-        <div className='recomendetVideo'>
-            <NavbarComponent />
-            <div className='recomendedVideos__videos' id={view} >
+        <div className='pageVideo'>
+            <div className='pageVideos__videos' id={view} >
                 {currentVideos.map((video) => {
                     return (
-                        <div className='recomendedVideos__videos' key={video.idLocalStorage} id={view}>
+                        <div className='pageVideos__videos' key={video.idLocalStorage} id={view}>
                             <div onClick={() => {
                                 setCurrentMovie(video.aUrl)
                             }} >
@@ -84,5 +82,5 @@ function RecomendetVideo() {
     )
 }
 
-export default RecomendetVideo
+export default PageVideo
 

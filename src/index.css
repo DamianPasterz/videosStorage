@@ -27,37 +27,23 @@ code {
   display: flex;
   height: 50px;
   background-color: lightgray;
-  
   padding-left: 15px;
   padding-right: 15px;
-  justify-content: space-around;
-  /* text-align: center; */
-  /* align-items: center; */
+  justify-content: right;
   border-radius: 15px;
-  /* border: 0.5px black solid; */
+  margin-bottom: 15px;
  
 }
 
-.nawbar__logo {
-  display: flex;
-  padding-left: 15px;
-  padding-right: 15px;
-  /* justify-content: space-around; */
-  text-align: center;
-  align-items: center;
-  border-right: .1px solid gray;
-  border-left: .1px solid gray;
-}
 
 .nawbar__btn{
   display: flex;
   justify-content: space-between;
   padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 15px;
+  margin-right: 15px;
   text-align: center;
   align-items: center;
-  border-right: .1px solid gray;
-  border-left: .1px solid gray;
   cursor: pointer;
   transition: all .5s;
 }
@@ -97,6 +83,8 @@ code {
   justify-content: space-around;
   text-align: center;
   align-items: center;
+  margin-top: 15px;
+  margin-bottom: 30px;
 }
 .input__input{
   height: 40px;
@@ -118,6 +106,7 @@ code {
 }
   
 #grid.videoCard {
+  flex: 0.4;
   border-radius: 15px;
   background-color: gray;
   margin-bottom: 20px;
@@ -137,10 +126,10 @@ code {
 }
 
 #grid.videoCard__thumbnail {
-  height: 140px;
+  height: 160px;
   width: 250px;
   display: flex;
-  margin-top: 10px;
+  padding-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
   border-radius: 15px;
@@ -155,11 +144,14 @@ code {
   width: 190px;
 }
 
+
+
+#trash.btn{
+  color: red !important;
+}
 #grid.videoCard__action {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  padding-left: 15px;
   background-color: darkgray;
   border-radius: 15px;
 }
@@ -173,8 +165,6 @@ code {
   justify-content: space-around;
   
 }
-
-
 
 
 #grid.videoCard__text {
@@ -208,19 +198,19 @@ code {
   font-size: 14px;
 }
 
-.recomendetVideo{
+.pageVideo{
   flex: 0.9;
   background-color: #f9f9f9;
   padding: 20px 20px;
   border-radius: 15px;
 } 
 
-.recomendetVideo > h2 {
+.pageVideo > h2 {
   margin-left:5px ;
   margin-bottom: 20px;
 }
 
- #grid.recomendedVideos__videos {
+ #grid.pageVideos__videos {
   margin: 15px;
   display: flex;
   align-items: center;
@@ -282,9 +272,73 @@ code {
   align-items: center;
   
 }
-.modal_btn {
+
+
+.filterNav__body{
   display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  font-size:  1em;
+}
+
+.filterNav__action {
+  display: flex;
+  flex: 0.8;
+  justify-content: left;
+}
+
+.filterNav__view{
+  display: flex;
+  flex: 0.2;
+  justify-content: space-around;
+}
+
+.nawbar__select{
+  width: 30%;
+}
+
+
+.MODAL_STYLES {
+  display: flex;
+  width: 860px;
+  height: 640px;
+  flex-direction: column;
+  align-items: flex-end;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: lightgrey;
+  padding: 15px;
+  border-radius: 15px;
+  z-index: 1000;
+}
+
+.OVERLAY_STYLES {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .9);
+  z-index: 1000
+}
+
+
+.modal_btn {
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  margin-bottom: 5px;
+  background-color: lightgray;
+  cursor: pointer;
+ 
+}
+
+.modal_btn:hover {
+  color: antiquewhite;
+  border-radius: 50%;
+background-color: darkgrey;
 }

@@ -50,7 +50,7 @@ function VideoCard({ image, title, channel, views, likes, additionDate, idLocalS
                         color={favourite ? 'red' : 'black'}
                         onClick={() => togleFavorite(idLocalStorage)}
                     />
-                    <FaTrashAlt className='btn'
+                    <FaTrashAlt className='btn' id='trash'
                         onClick={() => {
                             HandleDelete(idLocalStorage)
                         }} />
