@@ -2,14 +2,7 @@ import React from 'react'
 import '../index.css'
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
-
-
-
 import { useVideoContext } from "../context/Video_context"
-
-
-
-
 
 
 
@@ -46,7 +39,7 @@ function VideoCard({ image, title, channel, views, likes, additionDate, idLocalS
                     <p>addition date: {additionDate}</p>
                 </div>
                 <div className='videoCard__action' id={view}>
-                    <FaHeart className='btn' size='2rem'
+                    <FaHeart className='btn' id='heart' size='2rem'
                         color={favourite ? 'red' : 'black'}
                         onClick={() => togleFavorite(idLocalStorage)}
                     />

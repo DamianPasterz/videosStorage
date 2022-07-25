@@ -102,6 +102,7 @@ code {
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
+  transition: all .5s;
 
 }
   
@@ -125,6 +126,16 @@ code {
   width:  100%;
 }
 
+.videoCard__thumbnail {
+  cursor: pointer;
+  transition: all .5s;
+}
+#grid.videoCard__thumbnail:hover {
+  transform: translate(-4.5%, -4.5%);
+  height: 176px;
+  width: 275px;
+}
+
 #grid.videoCard__thumbnail {
   height: 160px;
   width: 250px;
@@ -132,23 +143,31 @@ code {
   padding-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
-  border-radius: 15px;
+  border-radius: 20px;
 
 }
 
 
 #list.videoCard__thumbnail {
-  border-radius: 10px;
+  border-radius: 15px;
   margin: 5px;
   height: 120px;
   width: 190px;
 }
 
-
-
-#trash.btn{
-  color: red !important;
+#list.videoCard__thumbnail:hover {
+  transform: translate(1%, -1%);
+  height: 132px;
+  width: 209px;
 }
+#trash.btn:hover{
+  color:rgb(76, 158, 65) !important;
+}
+
+#heart.btn:hover{
+  color: crimson !important;
+}
+
 #grid.videoCard__action {
   display: flex;
   justify-content: space-between;
