@@ -21,8 +21,7 @@ const NavbarComponent = () => {
             </div>
 
             <div className='nawbar__btn' onClick={handleStatus} >
-
-                FAVOURITE <FaHeart size='1.5rem' color='red' />
+                FAVOURITE <FaHeart size='1.5rem' color='red' id='heart' />
             </div>
 
 

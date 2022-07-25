@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useVideoContext } from "../context/Video_context"
 import "../index.css"
 import getVideoId from 'get-video-id';
+
+
 
 
 function InputComponent() {
@@ -9,7 +11,8 @@ function InputComponent() {
     const [provider, setProvider] = useState(``)
     const [videoId, setVideoId] = useState("")
     const [isDisabled, setIsDisabled] = useState(true);
-    const { getYtObject, getVimeoObject } = useVideoContext();
+    const [loading, setLoading] = useState(false)
+    const { getYtObject, getVimeoObject, videos } = useVideoContext();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -20,6 +23,7 @@ function InputComponent() {
         setInputSearch("")
         urlOrIdValidation(newProvider, newId, inputSearch)
         setIsDisabled(true);
+        setLoading(true)
     }
 
     function urlOrIdValidation(newProvider, newId, inputSearch) {
@@ -58,6 +62,17 @@ function InputComponent() {
             There are no movies like that`)
             return
         }
+
+    }
+
+    useEffect(() => {
+        setLoading()
+    }, [videos])
+
+    const handleLoading = () => {
+        if (loading) {
+            return <h2>loading...</h2>
+        }
     }
     return (
         <div className='input__contanier'>
@@ -74,12 +89,18 @@ function InputComponent() {
                             setIsDisabled(false)
                         }
                     }} />
-                <button className="btn" disabled={isDisabled} >
+                <button className="btn" disabled={isDisabled} onClick={handleLoading} >
                     Add
                 </button>
                 <div>
+                    {loading ? (<p>loadning..s.</p>) : ''
+                    }
+
+
                 </div>
+
             </form>
+
         </div>
     )
 }

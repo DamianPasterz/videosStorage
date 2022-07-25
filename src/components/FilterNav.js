@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useVideoContext } from '../context/Video_context';
 import "../index.css"
 import { FaListAlt } from "react-icons/fa"
@@ -50,7 +50,7 @@ const FilterNav = () => {
             </div>
             <div className='filterNav__view'>
                 <select className='nawbar__select' onChange={HandleChange}>
-                    <option selected value="kokosowy" > SORT</option>
+                    <option defaultValue="kokosowy" > SORT</option>
                     <option value="filterAz">A-Z</option>
                     <option value="filterZa" >Z-A</option>
                     <option value="filterUploadDateNew"> LATEST</option>

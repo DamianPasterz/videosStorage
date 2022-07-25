@@ -7,6 +7,7 @@ import demo from '../tools/demo'
 
 
 
+
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
     const [videos, setVideos] = useLocalStorage("videos", []);
@@ -14,6 +15,7 @@ export const VideoProvider = ({ children }) => {
     const [filterVideos, setFilterVideos] = useState([]);
     const [view, setView] = useState("grid")
     const [isOpen, setIsOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     let sortVideos = [...filterVideos]
 
@@ -63,7 +65,7 @@ export const VideoProvider = ({ children }) => {
         const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
         const response = await fetch(fetchUrl);
         const data = await response.json()
-
+        setLoading(false)
         destructurizeYoutubeObject(data, movieUrl)
     }
     //destrukturyzacja YT
@@ -99,6 +101,7 @@ export const VideoProvider = ({ children }) => {
         const movieUrl = `https://www.vimeo.com/${newId}`;
         const response = await fetch(fetchUrl);
         const data = await response.json()
+
         destructurizeVimeoObject(data, movieUrl)
 
     }
@@ -120,10 +123,13 @@ export const VideoProvider = ({ children }) => {
             favourite: false,
         };
         if (videos.find(item => item.id === newItem.id)) {
-            return alert("this movie already exists");
+            alert("video exist")
+            console.log("istnieje");
 
+            return
         }
         setVideos([...videos, newItem])
+        setLoading(false)
     };
 
     function deleteVideo(videos, idLocalStorage) {
@@ -155,6 +161,8 @@ export const VideoProvider = ({ children }) => {
                 isOpen,
                 setIsOpen,
                 HandleDemo,
+
+
 
 
             }

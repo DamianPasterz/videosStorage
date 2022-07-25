@@ -57,6 +57,7 @@ function PageVideo() {
             </div>
 
             <Pagination
+                currentPage={currentPage}
                 videosPerPage={videosPerPage}
                 totalVideos={videos.length}
                 paginate={paginate}
