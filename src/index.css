@@ -271,10 +271,10 @@ code {
 
 }
 
-.page_item  a{
-  text-decoration: none;
+.page_item:hover{
+  background-color: rgb(105, 76, 76);
+  color: antiquewhite;
 }
-
 .modal{
   display: flex;
   justify-content: center;
