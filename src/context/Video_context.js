@@ -17,11 +17,13 @@ export const VideoProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
+
     let sortVideos = [...filterVideos]
 
     function HandleDemo() {
         setVideos(demo)
     }
+
 
     useEffect(() => {
         switch (status) {
@@ -58,13 +60,23 @@ export const VideoProvider = ({ children }) => {
         setFilterVideos(sortVideos)
     }
 
-    async function getYtObject(newProvider, newId, inputSearch) {
+    async function getYtObject(newId) {
         const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
         const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${api_key}
         &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
         const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
         const response = await fetch(fetchUrl);
+        if (response.status === 404) {
+            alert("video does not exist")
+            return
+        }
         const data = await response.json()
+        if (data.items.length === 0) {
+            alert("video does not exist")
+            return
+        }
+
+
         setLoading(false)
         destructurizeYoutubeObject(data, movieUrl)
     }
@@ -92,17 +104,22 @@ export const VideoProvider = ({ children }) => {
         if (videos.find(item => item.id === newItem.id)) {
             return
         }
-        setVideos([...videos, newItem])
+        setVideos([...videos, newItem]);
     };
 
 
-    async function getVimeoObject(newProvider, newId, inputSearch) {
+    async function getVimeoObject(newId) {
         const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
         const movieUrl = `https://www.vimeo.com/${newId}`;
-        const response = await fetch(fetchUrl);
+        const response = await fetch(fetchUrl)
+        console.log(response);
+        if (response.status === 404) {
+            alert("video does not exist")
+            return
+        }
         const data = await response.json()
-
-        destructurizeVimeoObject(data, movieUrl)
+        console.log(alert);
+        destructurizeVimeoObject(data, movieUrl);
 
     }
     const destructurizeVimeoObject = (data, movieUrl) => {
@@ -124,7 +141,7 @@ export const VideoProvider = ({ children }) => {
         };
         if (videos.find(item => item.id === newItem.id)) {
             alert("video exist")
-            console.log("istnieje");
+
 
             return
         }
@@ -161,6 +178,7 @@ export const VideoProvider = ({ children }) => {
                 isOpen,
                 setIsOpen,
                 HandleDemo,
+                alert,
 
 
 

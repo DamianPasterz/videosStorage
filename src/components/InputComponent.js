@@ -33,14 +33,14 @@ function InputComponent() {
             newProvider = "VIMEO"
             setProvider(newProvider)
             setVideoId(newId)
-            return getVimeoObject(newProvider, newId, inputSearch)
+            return getVimeoObject(newId)
         }
         //URL VIMEO
         if (inputSearch.length > 12 && newProvider === "VIMEO" && newId.length === 9) {
             newProvider = "VIMEO"
             setProvider(newProvider)
             setVideoId(newId)
-            return getVimeoObject(newProvider, newId, inputSearch)
+            return getVimeoObject(newId)
         }
         //ID YOUTUBE
         if (inputSearch.length === 11 && !inputSearch.toUpperCase().includes("YOUTUBE")) {
@@ -48,14 +48,14 @@ function InputComponent() {
             newProvider = "YOUTUBE"
             setProvider(newProvider)
             setVideoId(newId)
-            return getYtObject(newProvider, newId, inputSearch, setProvider)
+            return getYtObject(newId)
         }
         //URL YOUTUBE
         if (inputSearch.length > 13 && newProvider === "YOUTUBE" && newId?.length === 11) {
             newProvider = "YOUTUBE"
             setProvider(newProvider)
             setVideoId(newId)
-            return getYtObject(newProvider, newId, inputSearch)
+            return getYtObject(newId)
         }
         else {
             setProvider(`Invalid data entered
@@ -92,8 +92,8 @@ function InputComponent() {
                 <button className="btn" disabled={isDisabled} onClick={handleLoading} >
                     Add
                 </button>
-                <div>
-                    {loading ? (<p>loadning..s.</p>) : ''
+                <div >
+                    {loading ? (<p>loadning..s.</p>) : ""
                     }
 
 

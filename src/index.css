@@ -85,6 +85,7 @@ body {
 }
 
  .nawbar__view__btn{
+  margin-right: 1em;
   transition: all .2s;
  }
 .nawbar__view__btn:hover{
@@ -101,7 +102,9 @@ body {
 }
 .input__input{
   height: 40px;
+  width: 30rem;
   font-size: 15px;
+  align-items: center;
   text-align: center;
   border-radius: 10px;
 }
@@ -140,6 +143,7 @@ body {
 }
 
 .videoCard__thumbnail {
+  flex: .1;
   cursor: pointer;
   transition: all .5s;
 }
@@ -162,15 +166,16 @@ body {
 
 
 #list.videoCard__thumbnail {
+  flex: .2;
   border-radius: 15px;
   margin: 5px;
-  height: 120px;
+  height: 140px;
   width: 190px;
 }
 
 #list.videoCard__thumbnail:hover {
   transform: translate(1%, -1%);
-  height: 132px;
+  height: 154px;
   width: 209px;
 }
 #trash.btn:hover{
@@ -190,6 +195,7 @@ body {
 
 
 #list.videoCard__action{
+  flex: 0.1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -207,8 +213,12 @@ body {
 
 #list.videoCard__text{
  display: flex;
+ flex: 0.6;
  justify-content: space-between;
  width: 70%;
+ white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #grid.videoCard__text > h4 {
@@ -323,18 +333,31 @@ body {
   display: flex;
   flex: 0.8;
   justify-content: left;
-  margin-left:50px ;
+  margin-left:5px ;
 }
 
 .filterNav__view{
   display: flex;
-  flex: 0.2;
-  justify-content: space-around;
-  padding-right: 50px;
+  flex: 0.1;
+  justify-content: left;
+  
+ 
+  
+}
+
+
+
+.filter__view__left{
+  display: flex;
+  flex: 1;
+  justify-content: right;
+  text-align: center;
+  align-items: center;
 }
 
 .nawbar__select{
-  width: 30%;
+  border: none;
+  width: 80px;
 }
 
 

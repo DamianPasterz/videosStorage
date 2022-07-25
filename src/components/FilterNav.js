@@ -48,19 +48,21 @@ const FilterNav = () => {
 
 
             </div>
+            <div className='filter__view__left'>
+                <div className='filterNav__view'>
+                    <select className='nawbar__select' onChange={HandleChange}>
+                        <option defaultValue="kokosowy" > SORT</option>
+                        <option value="filterAz">A-Z</option>
+                        <option value="filterZa" >Z-A</option>
+                        <option value="filterUploadDateNew"> LATEST</option>
+                        <option value="filterUploadDateOld">OLDEST</option>
+                    </select>
+                </div>
+            </div>
             <div className='filterNav__view'>
-                <select className='nawbar__select' onChange={HandleChange}>
-                    <option defaultValue="kokosowy" > SORT</option>
-                    <option value="filterAz">A-Z</option>
-                    <option value="filterZa" >Z-A</option>
-                    <option value="filterUploadDateNew"> LATEST</option>
-                    <option value="filterUploadDateOld">OLDEST</option>
-
-                </select>
                 <FaListAlt className='nawbar__view__btn' size='1.5rem' color={view === 'list' ? 'red' : 'black'} onClick={() => { setView('list') }} />
                 <BsFillGridFill className='nawbar__view__btn' size='1.5rem' color={view === 'grid' ? 'red' : 'black'} onClick={() => { setView('grid') }} />
             </div>
-
         </div>
 
     );
