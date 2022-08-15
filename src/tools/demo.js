@@ -1,5 +1,4 @@
 const demo =
-
     [
         {
             "id": 400209878,
@@ -104,6 +103,4 @@ const demo =
             "favourite": false
         }
     ]
-
-
 export default demo;

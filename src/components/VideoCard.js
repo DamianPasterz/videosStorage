@@ -1,14 +1,12 @@
 import React from 'react'
-import '../index.css'
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
-import { useVideoContext } from "../context/Video_context"
 
-
+import { useVideoContext } from "../context/VideoContext"
+import '../index.css'
 
 function VideoCard({ image, title, channel, views, likes, additionDate, idLocalStorage, favourite }) {
     const { setVideos, view, setIsOpen, videos } = useVideoContext();
-
 
     function HandleDelete(idLocalStorage) {
         let deletedVideos = videos.filter((element) => {
@@ -26,6 +24,7 @@ function VideoCard({ image, title, channel, views, likes, additionDate, idLocalS
         })
         setVideos(favoritesVideos)
     }
+
     return (
         <>
             <div className='videoCard' key={videos.idLocalStorage} id={view}>
@@ -34,8 +33,8 @@ function VideoCard({ image, title, channel, views, likes, additionDate, idLocalS
                 }} />
                 <div className='videoCard__text' id={view} >
                     <h4>{title}</h4>
-                    {views ? <p>VIEWS: {views} </p> : null}
-                    {likes ? <p>LIKES: {likes}</p> : null}
+                    {views ?<p>VIEWS: {views}</p>:null}
+                    {likes ?<p>LIKES: {likes}</p>:null}
                     <p>addition date: {additionDate}</p>
                 </div>
                 <div className='videoCard__action' id={view}>

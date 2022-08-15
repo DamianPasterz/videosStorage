@@ -1,4 +1,3 @@
-import './App.css';
 import InputComponent from './components/InputComponent';
 import VideoPage from "./components/VideoPage"
 import NavbarComponent from './components/Navbar';

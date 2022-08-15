@@ -2,7 +2,6 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* font-family: 'Montserrat', sans-serif; */
   font-family: 'Edu VIC WA NT Beginner', cursive;
   font-family: 'Josefin Sans', sans-serif;
 }
@@ -19,12 +18,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
-
+.loading-field {
+  height: 60px;
+  padding-top: 30px;
+}
 .nawbar__body {
   display: flex;
   height: 50px;

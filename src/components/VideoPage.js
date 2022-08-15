@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react';
-// import "./VideoPage.css";
+import ReactPlayer from 'react-player';
+
+import { useVideoContext } from '../context/VideoContext';
 import VideoCard from "./VideoCard"
 import Pagination from "./Pagination"
-import { useVideoContext } from '../context/Video_context';
 import Modal from '../tools/modal';
-import ReactPlayer from 'react-player';
 import "../index.css"
-
 
 function PageVideo() {
     const { videos, filterVideos, view, setIsOpen, isOpen, } = useVideoContext();
     const [currentMovie, setCurrentMovie] = useState()
     const [currentPage, setCurrentPage] = useState(1);
-    const [videosPerPage] = useState(5);
 
-    // paginacja
+    const videosPerPage = 5;
     const indexOfLastVideos = currentPage * videosPerPage
     const indexOfFirstVideo = indexOfLastVideos - videosPerPage
     const currentVideos = filterVideos.slice(indexOfFirstVideo, indexOfLastVideos)
-    // zmiana stron
+
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
 
@@ -53,9 +51,7 @@ function PageVideo() {
                 }
                 )
                 }
-
             </div>
-
             <Pagination
                 currentPage={currentPage}
                 videosPerPage={videosPerPage}
@@ -70,18 +66,9 @@ function PageVideo() {
                     controls
                     className='media-player'
                 />
-
             </Modal>
-
-
         </div>
-
-
-
-
-
     )
 }
-
 export default PageVideo
 

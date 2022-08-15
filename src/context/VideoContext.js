@@ -1,12 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid';
-import useLocalStorage from '../tools/useLokalStorageHook';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
+
+import useLocalStorage from '../tools/useLokalStorageHook';
 import demo from '../tools/demo'
-
-
-
-
+import config from '../tools/config'
 
 export const VideoContext = React.createContext();
 export const VideoProvider = ({ children }) => {
@@ -17,17 +15,15 @@ export const VideoProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-
     let sortVideos = [...filterVideos]
 
     function HandleDemo() {
         setVideos(demo)
     }
 
-
     useEffect(() => {
         switch (status) {
-            case 'favourite':
+            case config.FAVOURITE:
                 setFilterVideos(videos.filter(video => video.favourite === true));
                 break;
             default:
@@ -36,26 +32,26 @@ export const VideoProvider = ({ children }) => {
         }
 
     }, [videos, status]);
-    // filter AZ
-    function filterAz() {
+    
+    function filterFromAToZ() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
-    // filter ZA
-    function filterZa() {
+    
+    function filterFromZToA() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
 
-    // filter Upload date new
-    function filterUploadDateNew() {
+    
+    function filterFromNewToOld() {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
-    // filter Upload date old
-    function filterUploadDateOld() {
+    
+    function filterFromOldToNew() {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate < b.additionDate) ? 1 : (b.additionDate < a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
@@ -68,19 +64,17 @@ export const VideoProvider = ({ children }) => {
         const response = await fetch(fetchUrl);
         if (response.status === 404) {
             alert("video does not exist")
-            return
+            return;
         }
         const data = await response.json()
         if (data.items.length === 0) {
             alert("video does not exist")
-            return
+            return;
         }
-
 
         setLoading(false)
         destructurizeYoutubeObject(data, movieUrl)
     }
-    //destrukturyzacja YT
     const destructurizeYoutubeObject = (data, movieUrl) => {
         const {
             id,
@@ -107,7 +101,6 @@ export const VideoProvider = ({ children }) => {
         setVideos([...videos, newItem]);
     };
 
-
     async function getVimeoObject(newId) {
         const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
         const movieUrl = `https://www.vimeo.com/${newId}`;
@@ -115,6 +108,7 @@ export const VideoProvider = ({ children }) => {
         console.log(response);
         if (response.status === 404) {
             alert("video does not exist")
+            setLoading(false)
             return
         }
         const data = await response.json()
@@ -140,22 +134,24 @@ export const VideoProvider = ({ children }) => {
             favourite: false,
         };
         if (videos.find(item => item.id === newItem.id)) {
+            setLoading(!loading)
             alert("video exist")
+            setLoading(!loading)
 
-
-            return
+           
+            return;
         }
+
         setVideos([...videos, newItem])
-        setLoading(false)
+        setLoading(!loading)
     };
 
     function deleteVideo(videos, idLocalStorage) {
         let deletedVideos = videos.filter((element) => {
-            return element.idLocalStorage !== idLocalStorage
+            return element.idLocalStorage !== idLocalStorage;
         })
         setVideos([deletedVideos])
     }
-
 
     return (
         <VideoContext.Provider
@@ -167,10 +163,10 @@ export const VideoProvider = ({ children }) => {
                 setVideos,
                 videos,
                 deleteVideo,
-                filterAz,
-                filterZa,
-                filterUploadDateNew,
-                filterUploadDateOld,
+                filterFromAToZ,
+                filterFromZToA,
+                filterFromNewToOld,
+                filterFromOldToNew,
                 setStatus,
                 filterVideos,
                 view,
@@ -179,10 +175,6 @@ export const VideoProvider = ({ children }) => {
                 setIsOpen,
                 HandleDemo,
                 alert,
-
-
-
-
             }
             }>
             {children}
