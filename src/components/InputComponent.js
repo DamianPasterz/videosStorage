@@ -21,7 +21,7 @@ function InputComponent() {
         const newId = getVideoId(inputSearch)?.id;
         setProvider(newProvider);
         setVideoId(newId);
-        setInputSearch("");
+        setInputSearch('');
         urlOrIdValidation(newProvider, newId, inputSearch)
         setIsDisabled(true);
         setLoading(!loading);
