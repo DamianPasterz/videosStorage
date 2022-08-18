@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import getVideoId from 'get-video-id';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useVideoContext } from "../context/VideoContext"
 import "../index.css"
@@ -13,7 +14,11 @@ function InputComponent() {
     const [videoId, setVideoId] = useState('');
     const [isDisabled, setIsDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
-    const { getYtObject, getVimeoObject, videos } = useVideoContext();
+    const { getYtObject, getVimeoObject } = useVideoContext();
+
+    useEffect(() => {
+       setLoading(false)
+        }, [inputSearch]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -31,8 +36,8 @@ function InputComponent() {
     const vimeoURLLength = 12;
     const YoutubeIDLength = 11;
     const minYoutubeURLLength = 13;
-
-
+    const incorrectInputNotify = () => toast.warning(config.toastInputIncorect);
+   
     function urlOrIdValidation(newProvider, newId, inputSearch) {
         
         if (inputSearch?.length === vimeoIDLength && inputSearch.split("").every(Number)) {
@@ -65,19 +70,10 @@ function InputComponent() {
             return getYtObject(newId);
         }
         else {
-            setProvider(`Invalid data entered
-            There are no movies like that`)
-           
+            incorrectInputNotify()
             return;
         }
-
     }
-
-    // useEffect(() => {
-    //         setLoading(false);
-            
-    // }, [videos])
-
    
     return (
         <div className='input__contanier'>
@@ -99,12 +95,13 @@ function InputComponent() {
                 </button>
                 <div className='loading-field' >
                     {loading ? (<div class="spinner-border" role="status">
-  <span class="visually-hidden"></span>
-</div>) : " "}
+                     <span class="visually-hidden"></span>
+                    </div>) : " "}
                 </div>
-
             </form>
-
+            <ToastContainer 
+            position="top-center"
+            />
         </div>
     )
 }

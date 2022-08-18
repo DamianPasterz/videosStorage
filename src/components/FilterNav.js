@@ -7,12 +7,7 @@ import "../index.css"
 import config from '../tools/config';
 
 const FilterNav = () => {
-    const { filterFromZToA, filterFromAToZ, filterFromNewToOld, filterFromOldToNew } = useVideoContext();
-    const { setVideos, setView, view, HandleDemo } = useVideoContext();
-
-    function HandleClearAll() {
-        setVideos([])
-    }
+    const { filterFromZToA, filterFromAToZ, filterFromNewToOld, filterFromOldToNew,handleClearAll, setView, view, handleDemo } = useVideoContext();
 
     const handleChange = (event) => {
         switch (event.target.value) {
@@ -36,21 +31,21 @@ const FilterNav = () => {
     return (
         <div className='filterNav__body'>
             <div className='filterNav__action'>
-                <div className='nawbar__btn' onClick={HandleDemo} >
+                <div className='nawbar__btn' onClick={handleDemo} >
                 DEMO
                 </div>
-                <div className='nawbar__btn' onClick={HandleClearAll} >
+                <div className='nawbar__btn' onClick={handleClearAll} >
                 CLEAR ALL
                 </div>
             </div>
             <div className='filter__view__left'>
                 <div className='filterNav__view'>
                     <select className='nawbar__select' onChange={handleChange}>
-                        <option defaultValue="" >SORT</option>
-                        <option value = {config.filterFromAToZ} >A-Z</option>
-                        <option value={config.filterFromZToA}>Z-A</option>
-                        <option value={config.filterFromNewToOld}>LATEST</option>
-                        <option value={config.filterFromOldToNew}>OLDEST</option>
+                        <option className='options' defaultValue="" >SORT</option>
+                        <option className='options' value = {config.filterFromAToZ} >A-Z</option>
+                        <option className='options' value={config.filterFromZToA}>Z-A</option>
+                        <option className='options' value={config.filterFromNewToOld}>LATEST</option>
+                        <option className='options' value={config.filterFromOldToNew}>OLDEST</option>
                     </select>
                 </div>
             </div>

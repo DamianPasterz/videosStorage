@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import useLocalStorage from '../tools/useLokalStorageHook';
 import demo from '../tools/demo'
@@ -14,12 +16,63 @@ export const VideoProvider = ({ children }) => {
     const [view, setView] = useState("grid")
     const [isOpen, setIsOpen] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [demoLoad, setdemoLoad] = useState(true);
+    const [alert, setAlert] = useState('');
+    const [id, setId] = useState();
+    const [show, setShow] = useState(false);
 
+  const handleClose = () => {setShow(false)};
+  const handleCloseAprroved = () => {
+    setShow(false)
+    successDeleteNotify()
+    setVideos([])
+    setdemoLoad(true)
+};
+
+  const handleShow = () => setShow(true);
     let sortVideos = [...filterVideos]
 
-    function HandleDemo() {
-        setVideos(demo)
+    function handleDemo() {
+            if (demoLoad) {
+                toast.success(config.toastSuccses)
+                setVideos([...videos,...demo]);
+                setdemoLoad(false)
+            }
+            if (!demoLoad) {
+                toast.warning(config.toastWarning)
+            }
     }
+    
+    function handleClearAll() {
+        setAlert(config.alertAllDelete)
+        handleShow() 
+    }
+
+    function handleClear(idLocalStorage) {
+        setAlert(config.alertSingleDelete)
+        setId(idLocalStorage)
+        handleShow()
+        return id;
+    }
+
+    function handleDelete(id) {
+        let deletedVideos = videos.filter((element) => {
+            return element.idLocalStorage !== id
+        })
+        setVideos(deletedVideos)
+      }
+
+      const handleCloseAprrovedSingle = (id) => {
+        setShow(false)
+        successDeleteNotify()
+        handleDelete(id)
+        
+    };
+
+    const successNotify = () => toast.success("Video added to the database!");
+    const successDeleteNotify = () => toast.success("Video has been removed from the database!");
+    const warniNgnotyfi = () => toast("VIdeo already exists in the database!");
+    const errorNotify = () => toast.error("video does not exist!");
 
     useEffect(() => {
         switch (status) {
@@ -37,14 +90,12 @@ export const VideoProvider = ({ children }) => {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
-    
+
     function filterFromZToA() {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
-
-    
     function filterFromNewToOld() {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
@@ -58,17 +109,17 @@ export const VideoProvider = ({ children }) => {
 
     async function getYtObject(newId) {
         const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
-        const fetchUrl = `https://www.googleapis.com/youtube/v3/videos?id=${newId}&key=${api_key}
-        &part=snippet,statistics&fields=items(id,snippet(title,thumbnails(default(url))),statistics(viewCount,likeCount))`
-        const movieUrl = `https://www.youtube.com/watch?v=${newId}`;
+        const fetchUrl = `${config.YouTubFetchUrl}${newId}&key=${api_key}${config.YouTubeSnipetPartUrl}`
+        const movieUrl = `${config.YouTubeMovieUrl}${newId}`;
         const response = await fetch(fetchUrl);
         if (response.status === 404) {
-            alert("video does not exist")
+            errorNotify();
             return;
         }
+
         const data = await response.json()
         if (data.items.length === 0) {
-            alert("video does not exist")
+            errorNotify();
             return;
         }
 
@@ -92,27 +143,28 @@ export const VideoProvider = ({ children }) => {
             provider: 'YOUTUBE',
             aUrl: movieUrl,
             imageUrl: url,
-            additionDate: moment().add(3, 'days').calendar(),
+            additionDate:moment().add(10, 'days').calendar(),
             favourite: false,
         }
         if (videos.find(item => item.id === newItem.id)) {
+            warniNgnotyfi();
+            setLoading(false);
             return
         }
+        successNotify()
         setVideos([...videos, newItem]);
     };
 
     async function getVimeoObject(newId) {
-        const fetchUrl = `https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/${newId}`
-        const movieUrl = `https://www.vimeo.com/${newId}`;
+        const fetchUrl = `${config.VimeoFetchUrl}${newId}`
+        const movieUrl = `${config.VimeoMovieUrl}${newId}`;
         const response = await fetch(fetchUrl)
-        console.log(response);
         if (response.status === 404) {
-            alert("video does not exist")
+            errorNotify()
             setLoading(false)
             return
         }
         const data = await response.json()
-        console.log(alert);
         destructurizeVimeoObject(data, movieUrl);
 
     }
@@ -129,29 +181,18 @@ export const VideoProvider = ({ children }) => {
             title,
             imageUrl: thumbnail_url,
             provider: "VIMEO",
-            additionDate: moment().add(3, 'days').calendar(),
+            additionDate:moment().add(10, 'days').calendar(),
             aUrl: movieUrl,
             favourite: false,
         };
         if (videos.find(item => item.id === newItem.id)) {
-            setLoading(!loading)
-            alert("video exist")
-            setLoading(!loading)
-
-           
+            warniNgnotyfi();
+            setLoading(false);
             return;
         }
-
         setVideos([...videos, newItem])
-        setLoading(!loading)
+        successNotify();
     };
-
-    function deleteVideo(videos, idLocalStorage) {
-        let deletedVideos = videos.filter((element) => {
-            return element.idLocalStorage !== idLocalStorage;
-        })
-        setVideos([deletedVideos])
-    }
 
     return (
         <VideoContext.Provider
@@ -162,7 +203,6 @@ export const VideoProvider = ({ children }) => {
                 destructurizeYoutubeObject,
                 setVideos,
                 videos,
-                deleteVideo,
                 filterFromAToZ,
                 filterFromZToA,
                 filterFromNewToOld,
@@ -173,8 +213,21 @@ export const VideoProvider = ({ children }) => {
                 setView,
                 isOpen,
                 setIsOpen,
-                HandleDemo,
+                handleDemo,
                 alert,
+                successDeleteNotify,
+                handleClearAll,
+                show,
+                setShow,
+                handleShow,
+                handleClose,
+                handleCloseAprroved,
+                setAlert,
+                handleCloseAprrovedSingle,
+                handleDelete,
+                handleClear,
+                id,
+               
             }
             }>
             {children}

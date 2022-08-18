@@ -11,7 +11,7 @@ export default function Modal({ open, children, onClose }) {
             <div className='OVERLAY_STYLES' />
             <div className='MODAL_STYLES' >
                 <button className='modal_btn' onClick={onClose}>X</button>
-                {children},
+                {children}
             </div>
         </>,
         document.getElementById('portal')

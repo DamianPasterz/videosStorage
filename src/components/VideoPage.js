@@ -3,22 +3,20 @@ import ReactPlayer from 'react-player';
 
 import { useVideoContext } from '../context/VideoContext';
 import VideoCard from "./VideoCard"
-import Pagination from "./Pagination"
+import PaginationModule from "./Pagination"
 import Modal from '../tools/modal';
 import "../index.css"
 
 function PageVideo() {
     const { videos, filterVideos, view, setIsOpen, isOpen, } = useVideoContext();
     const [currentMovie, setCurrentMovie] = useState()
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(4);
 
     const videosPerPage = 5;
     const indexOfLastVideos = currentPage * videosPerPage
     const indexOfFirstVideo = indexOfLastVideos - videosPerPage
     const currentVideos = filterVideos.slice(indexOfFirstVideo, indexOfLastVideos)
-
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
-
 
     useEffect(() => {
         setCurrentPage(1)
@@ -49,14 +47,17 @@ function PageVideo() {
                         </div>
                     )
                 }
-                )
-                }
+            )}
             </div>
-            <Pagination
+            <PaginationModule
+                posts={currentVideos}
+                videos={videos}
                 currentPage={currentPage}
                 videosPerPage={videosPerPage}
                 totalVideos={videos.length}
                 paginate={paginate}
+                setCurrentPage={setCurrentPage}
+                filterVideos={filterVideos}
             />
             <Modal open={isOpen} onClose={() => setIsOpen(false)}  >
                 <ReactPlayer
