@@ -2,12 +2,12 @@ import React, {useEffect} from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from "react-bootstrap/Pagination";
 
-function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage, posts, filterVideos}) {
+function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage, posts, filterVideos, currentMovie}) {
     useEffect(() => {
         if (posts?.length === 0 && currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+            setCurrentPage(currentPage);
         }
-      }, [posts]);
+      }, [filterVideos]); //eslint-disable-next-line
 
     const pageNumbers = [];
     for (let number = 1; number <= Math.ceil(filterVideos?.length / videosPerPage); number++) {
@@ -33,7 +33,7 @@ function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage
                 <Pagination.Prev onClick={() => paginate(currentPage-1)} />
                 </>
               : ""}
-                {pageNumbers}
+            {pageNumbers}
                 {currentPage !== pageNumbers.length
                 ? <>
                   <Pagination.Next onClick={() => paginate(currentPage+1)} />

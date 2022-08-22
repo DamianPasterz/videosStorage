@@ -6,11 +6,11 @@ import { useVideoContext } from "../context/VideoContext"
 import '../index.css'
 
 function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, favourite }) {
-    const { setVideos, view, setIsOpen, videos,handleClear,handleShow } = useVideoContext();
+    const { setVideos, view, videos, handleClear, handleShow } = useVideoContext();
 
-    function togleFavorite(id) {
+    function togleFavorite(idLocalStorage) {
         const favoritesVideos = [...videos].map((video) => {
-            if (video.idLocalStorage === id) {
+            if (video.idLocalStorage === idLocalStorage) {
                 video.favourite = !video.favourite
             }
             return video
@@ -21,15 +21,11 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
     return (
         <>
             <div className='videoCard' key={videos.idLocalStorage} id={view}>
-                <img className='videoCard__thumbnail' id={view} src={image} alt="img" onClick={() => {
-                    // setIsOpen(true)
-                    handleShow()
-
-                }} />
-                <div className='videoCard__text' id={view} >
+                <img className='videoCard__thumbnail' id={view} src={image} alt="img" onClick={() => { handleShow()}} />
+                <div className='videoCard__text' id={view}>
                     <h4>{title}</h4>
-                 <p>VIEWS: {views}</p>
-                   <p>LIKES: {likes}</p>
+                    <p>VIEWS: {views}</p>
+                    <p>LIKES: {likes}</p>
                     <p>addition date: {additionDate}</p>
                 </div>
                 <div className='videoCard__action' id={view}>
@@ -43,12 +39,8 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
                         }} />
                 </div>
             </div>
-           
         </>
     )
 }
 
 export default VideoCard
-
-
-

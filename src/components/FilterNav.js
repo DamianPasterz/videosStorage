@@ -38,10 +38,10 @@ const FilterNav = () => {
                 <div className='filterNav__view'>
                     <select className='nawbar__select' onChange={handleChange}>
                         <option className='options' defaultValue=''>SORT</option>
-                        <option className='options' value = {config.filterFromAToZ}>A-Z</option>
-                        <option className='options' value = {config.filterFromZToA}>Z-A</option>
+                        <option className='options' value = {config.filter.filterFromAToZ}>A-Z</option>
+                        <option className='options' value = {config.filter.filterFromZToA}>Z-A</option>
                         <option className='options' value = {config.filterFromNewToOld}>LATEST</option>
-                        <option className='options' value = {config.filterFromOldToNew}>OLDEST</option>
+                        <option className='options' value = {config.filter.filterFromOldToNew}>OLDEST</option>
                     </select>
                 </div>
             </div>

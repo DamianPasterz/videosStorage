@@ -235,7 +235,9 @@ export const VideoProvider = ({ children }) => {
                 handleClear,
                 id,
                 currentMovie,
-                setCurrentMovie
+                setCurrentMovie,
+                setLoading,
+                status
                
             }
             }>

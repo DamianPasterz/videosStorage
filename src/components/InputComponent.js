@@ -10,8 +10,8 @@ import config from '../tools/config'
 
 function InputComponent() {
     const [inputSearch, setInputSearch] = useState('');
-    const [provider, setProvider] = useState('');
-    const [videoId, setVideoId] = useState('');
+    let [provider, setProvider] = useState('');
+    let [videoId, setVideoId] = useState('');
     const [isDisabled, setIsDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
     const { getYtObject, getVimeoObject } = useVideoContext();
@@ -22,55 +22,57 @@ function InputComponent() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        const newProvider = getVideoId(inputSearch)?.service?.toUpperCase();
-        const newId = getVideoId(inputSearch)?.id;
-        setProvider(newProvider);
-        setVideoId(newId);
+        provider = getVideoId(inputSearch)?.service?.toUpperCase();
+        videoId = getVideoId(inputSearch)?.id;
+        setProvider(provider);
+        setVideoId(videoId);
         setInputSearch('');
-        urlOrIdValidation(newProvider, newId, inputSearch)
-        setIsDisabled(true);
-        setLoading(!loading);
+        urlOrIdValidation(provider, videoId, inputSearch)
+        setIsDisabled(isDisabled);
+        setLoading(true);
     }
 
     const vimeoIDLength = 9;
     const vimeoURLLength = 12;
     const youtubeIDLength = 11;
     const minYoutubeURLLength = 13;
+    const minInput = 8;
     const incorrectInputNotify = () => toast.warning(config.message.toastInputIncorect);
    
-    function urlOrIdValidation(newProvider, newId, inputSearch) {
+    function urlOrIdValidation(provider, videoId, inputSearch) {
         
         if (inputSearch?.length === vimeoIDLength && inputSearch.split('').every(Number)) {
-            newId = inputSearch;
-            newProvider = config.provider.VIMEO;
-            setProvider(newProvider);
-            setVideoId(newId);
-            return getVimeoObject(newId);
+            videoId = inputSearch;
+            provider = config.provider.VIMEO;
+            setProvider(provider);
+            setVideoId(videoId);
+            return getVimeoObject(videoId);
         }
         
-        if (inputSearch?.length > vimeoURLLength && newProvider === config.provider.VIMEO && newId?.length === vimeoIDLength) {
-            newProvider = config.provider.VIMEO;
-            setProvider(newProvider);
-            setVideoId(newId);
-            return getVimeoObject(newId);
+        if (inputSearch?.length > vimeoURLLength && provider === config.provider.VIMEO && videoId?.length === vimeoIDLength) {
+            provider = config.provider.VIMEO;
+            setProvider(provider);
+            setVideoId(videoId);
+            return getVimeoObject(videoId);
         }
         
-        if (inputSearch?.length === youtubeIDLength && !inputSearch.toUpperCase().includes(config.YOUTUBE)) {
-            newId = inputSearch;
-            newProvider = config.provider.YOUTUBE;
-            setProvider(newProvider);
-            setVideoId(newId);
-            return getYtObject(newId);
+        if (inputSearch?.length === youtubeIDLength && !inputSearch.toUpperCase().includes(config.provider.YOUTUBE)) {
+            videoId = inputSearch;
+            provider = config.provider.YOUTUBE;
+            setProvider(provider);
+            setVideoId(videoId);
+            return getYtObject(videoId);
         }
         
-        if (inputSearch?.length > minYoutubeURLLength && newProvider === config.provider.YOUTUBE && newId?.length === youtubeIDLength) {
-            newProvider = config.provider.YOUTUBE;
-            setProvider(newProvider);
-            setVideoId(newId);
-            return getYtObject(newId);
+        if (inputSearch?.length > minYoutubeURLLength && provider === config.provider.YOUTUBE && videoId?.length === youtubeIDLength) {
+            provider = config.provider.YOUTUBE;
+            setProvider(provider);
+            setVideoId(videoId);
+            return getYtObject(videoId);
         }
         else {
             incorrectInputNotify()
+            setInputSearch('')
             return;
         }
     }
@@ -86,8 +88,11 @@ function InputComponent() {
                     value={inputSearch}
                     onChange={e => {
                         setInputSearch(e.target.value)
-                        if (e.target.value.length > 8) {
+                        if (e.target.value.length >= minInput) {
                             setIsDisabled(false)
+                        }
+                        if (e.target.value.length < minInput) {
+                            setIsDisabled(true)
                         }
                     }} />
                 <button className="btn" disabled={isDisabled}>Add</button>

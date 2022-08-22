@@ -4,21 +4,39 @@ import { useVideoContext } from '../context/VideoContext';
 import VideoCard from "./VideoCard"
 import PaginationModule from "./Pagination"
 import "../index.css"
+import config from '../tools/config';
 
 function PageVideo() {
-    const { videos, filterVideos, view, setCurrentMovie } = useVideoContext();
+    const { videos, filterVideos, view, setCurrentMovie, currentMovie, status } = useVideoContext();
    
-    const [currentPage, setCurrentPage] = useState(4);
+    const [currentPage, setCurrentPage] = useState();
 
     const videosPerPage = 5;
     const indexOfLastVideos = currentPage * videosPerPage
     const indexOfFirstVideo = indexOfLastVideos - videosPerPage
     const currentVideos = filterVideos.slice(indexOfFirstVideo, indexOfLastVideos)
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
+    console.log(status);
+    
+    useEffect(() => {
+        if (status === config.status.ALL) {
+            setCurrentPage(currentPage)
+            console.log('1');
+        }
+        if (status === config.status.FAVOURITE) {
+            setCurrentPage(1)
+        }
+      
+        console.log('1');
+        
+    }, [filterVideos])
 
     useEffect(() => {
+        console.log('2');
+        
         setCurrentPage(1)
-    }, [filterVideos])
+    }, [])
+
     return (
         <div className='pageVideo'>
             <div className='pageVideos__videos' id={view} >
@@ -56,6 +74,7 @@ function PageVideo() {
                 paginate = {paginate}
                 setCurrentPage = {setCurrentPage}
                 filterVideos = {filterVideos}
+                currentMovie = {currentMovie}
             />
           
         </div>
