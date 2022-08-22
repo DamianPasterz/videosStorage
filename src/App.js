@@ -1,12 +1,12 @@
 import InputComponent from './components/InputComponent';
-import VideoPage from "./components/VideoPage"
+import VideoPage from './components/VideoPage'
 import NavbarComponent from './components/Navbar';
 import FilterNav from './components/FilterNav';
 import BootstrapModal from './tools/bootstrapModal'
 import { useVideoContext } from './context/VideoContext';
 
 function App() {
-  const {alert,idLocalStorage}=useVideoContext();
+  const { alert, idLocalStorage, currentMovie} = useVideoContext();
   return (
     <div>
       <NavbarComponent />
@@ -14,7 +14,7 @@ function App() {
       <InputComponent />
       <FilterNav />
       <VideoPage />
-      <BootstrapModal alert = {alert} id={idLocalStorage}/>
+      <BootstrapModal alert = {alert} id={idLocalStorage} currentMovie = {currentMovie}/>
     </div>
   );
 }

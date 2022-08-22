@@ -17,8 +17,8 @@ function InputComponent() {
     const { getYtObject, getVimeoObject } = useVideoContext();
 
     useEffect(() => {
-       setLoading(false)
-        }, [inputSearch]);
+        setLoading(false)
+    }, [inputSearch]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -34,37 +34,37 @@ function InputComponent() {
 
     const vimeoIDLength = 9;
     const vimeoURLLength = 12;
-    const YoutubeIDLength = 11;
+    const youtubeIDLength = 11;
     const minYoutubeURLLength = 13;
-    const incorrectInputNotify = () => toast.warning(config.toastInputIncorect);
+    const incorrectInputNotify = () => toast.warning(config.message.toastInputIncorect);
    
     function urlOrIdValidation(newProvider, newId, inputSearch) {
         
-        if (inputSearch?.length === vimeoIDLength && inputSearch.split("").every(Number)) {
+        if (inputSearch?.length === vimeoIDLength && inputSearch.split('').every(Number)) {
             newId = inputSearch;
-            newProvider = config.VIMEO;
+            newProvider = config.provider.VIMEO;
             setProvider(newProvider);
             setVideoId(newId);
             return getVimeoObject(newId);
         }
         
-        if (inputSearch?.length > vimeoURLLength && newProvider === config.VIMEO && newId?.length === vimeoIDLength) {
-            newProvider = config.VIMEO;
+        if (inputSearch?.length > vimeoURLLength && newProvider === config.provider.VIMEO && newId?.length === vimeoIDLength) {
+            newProvider = config.provider.VIMEO;
             setProvider(newProvider);
             setVideoId(newId);
             return getVimeoObject(newId);
         }
         
-        if (inputSearch?.length === YoutubeIDLength && !inputSearch.toUpperCase().includes(config.YOUTUBE)) {
+        if (inputSearch?.length === youtubeIDLength && !inputSearch.toUpperCase().includes(config.YOUTUBE)) {
             newId = inputSearch;
-            newProvider = config.YOUTUBE;
+            newProvider = config.provider.YOUTUBE;
             setProvider(newProvider);
             setVideoId(newId);
             return getYtObject(newId);
         }
         
-        if (inputSearch?.length > minYoutubeURLLength && newProvider === config.YOUTUBE && newId?.length === YoutubeIDLength) {
-            newProvider = config.YOUTUBE;
+        if (inputSearch?.length > minYoutubeURLLength && newProvider === config.provider.YOUTUBE && newId?.length === youtubeIDLength) {
+            newProvider = config.provider.YOUTUBE;
             setProvider(newProvider);
             setVideoId(newId);
             return getYtObject(newId);
@@ -90,19 +90,19 @@ function InputComponent() {
                             setIsDisabled(false)
                         }
                     }} />
-                <button className="btn" disabled={isDisabled}  >
-                Add
-                </button>
+                <button className="btn" disabled={isDisabled}>Add</button>
                 <div className='loading-field' >
-                    {loading ? (<div class="spinner-border" role="status">
-                     <span class="visually-hidden"></span>
-                    </div>) : " "}
+                    {loading
+                    ? (<div class="spinner-border" role="status">
+                       <span class="visually-hidden"></span>
+                       </div>) 
+                    : " "}
                 </div>
             </form>
-            <ToastContainer 
-            position="top-center"
-            />
+            <ToastContainer position="top-center" />
         </div>
     )
 }
+
 export default InputComponent
+

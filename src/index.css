@@ -379,6 +379,12 @@ color: blueviolet;
 cursor: pointer;
 }
 
+.react-player {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
 
 .MODAL_STYLES {
   display: flex;

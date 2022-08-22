@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import useLocalStorage from '../tools/useLokalStorageHook';
+import useLocalStorage from '../tools/useLocalStorageHook';
 import demo from '../tools/demo'
 import config from '../tools/config'
 
@@ -20,13 +20,19 @@ export const VideoProvider = ({ children }) => {
     const [alert, setAlert] = useState('');
     const [id, setId] = useState();
     const [show, setShow] = useState(false);
+    const [currentMovie, setCurrentMovie] = useState()
+// console.log(currentMovie);
 
-  const handleClose = () => {setShow(false)};
+  const handleClose = () => {
+    setShow(false);
+    setAlert()
+};
   const handleCloseAprroved = () => {
     setShow(false)
     successDeleteNotify()
     setVideos([])
-    setdemoLoad(true)
+    setdemoLoad(true);
+    setAlert();
 };
 
   const handleShow = () => setShow(true);
@@ -34,24 +40,25 @@ export const VideoProvider = ({ children }) => {
 
     function handleDemo() {
             if (demoLoad) {
-                toast.success(config.toastSuccses)
+                toast.success(config.message.toastSuccses)
                 setVideos([...videos,...demo]);
                 setdemoLoad(false)
             }
-            if (!demoLoad) {
-                toast.warning(config.toastWarning)
-            }
+
+            if (!demoLoad) toast.warning(config.message.toastWarning)
     }
     
     function handleClearAll() {
-        setAlert(config.alertAllDelete)
-        handleShow() 
+        setAlert(config.message.alertAllDelete)
+        handleShow();
+        
     }
 
     function handleClear(idLocalStorage) {
-        setAlert(config.alertSingleDelete)
+        setAlert(config.message.alertSingleDelete)
         setId(idLocalStorage)
         handleShow()
+
         return id;
     }
 
@@ -66,17 +73,17 @@ export const VideoProvider = ({ children }) => {
         setShow(false)
         successDeleteNotify()
         handleDelete(id)
-        
+        setAlert();
     };
 
-    const successNotify = () => toast.success("Video added to the database!");
-    const successDeleteNotify = () => toast.success("Video has been removed from the database!");
-    const warniNgnotyfi = () => toast("VIdeo already exists in the database!");
-    const errorNotify = () => toast.error("video does not exist!");
+    const successNotify = () => toast.success('Video added to the database!');
+    const successDeleteNotify = () => toast.success('Video has been removed from the database!');
+    const warniNgnotyfi = () => toast('VIdeo already exists in the database!');
+    const errorNotify = () => toast.error('video does not exist!');
 
     useEffect(() => {
         switch (status) {
-            case config.FAVOURITE:
+            case config.status.FAVOURITE:
                 setFilterVideos(videos.filter(video => video.favourite === true));
                 break;
             default:
@@ -109,8 +116,8 @@ export const VideoProvider = ({ children }) => {
 
     async function getYtObject(newId) {
         const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
-        const fetchUrl = `${config.YouTubFetchUrl}${newId}&key=${api_key}${config.YouTubeSnipetPartUrl}`
-        const movieUrl = `${config.YouTubeMovieUrl}${newId}`;
+        const fetchUrl = `${config.url.YouTubFetchUrl}${newId}&key=${api_key}${config.url.YouTubeSnipetPartUrl}`
+        const movieUrl = `${config.url.YouTubeMovieUrl}${newId}`;
         const response = await fetch(fetchUrl);
         if (response.status === 404) {
             errorNotify();
@@ -118,7 +125,7 @@ export const VideoProvider = ({ children }) => {
         }
 
         const data = await response.json()
-        if (data.items.length === 0) {
+        if (data.items?.length === 0) {
             errorNotify();
             return;
         }
@@ -140,7 +147,7 @@ export const VideoProvider = ({ children }) => {
             title,
             viewCount,
             likeCount,
-            provider: 'YOUTUBE',
+            provider: config.provider.YOUTUBE,
             aUrl: movieUrl,
             imageUrl: url,
             additionDate:moment().add(10, 'days').calendar(),
@@ -156,8 +163,8 @@ export const VideoProvider = ({ children }) => {
     };
 
     async function getVimeoObject(newId) {
-        const fetchUrl = `${config.VimeoFetchUrl}${newId}`
-        const movieUrl = `${config.VimeoMovieUrl}${newId}`;
+        const fetchUrl = `${config.url.VimeoFetchUrl}${newId}`
+        const movieUrl = `${config.url.VimeoMovieUrl}${newId}`;
         const response = await fetch(fetchUrl)
         if (response.status === 404) {
             errorNotify()
@@ -180,7 +187,7 @@ export const VideoProvider = ({ children }) => {
             idLocalStorage: uuidv4(),
             title,
             imageUrl: thumbnail_url,
-            provider: "VIMEO",
+            provider: config.provider.VIMEO,
             additionDate:moment().add(10, 'days').calendar(),
             aUrl: movieUrl,
             favourite: false,
@@ -227,6 +234,8 @@ export const VideoProvider = ({ children }) => {
                 handleDelete,
                 handleClear,
                 id,
+                currentMovie,
+                setCurrentMovie
                
             }
             }>

@@ -6,7 +6,7 @@ import { useVideoContext } from "../context/VideoContext"
 import '../index.css'
 
 function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, favourite }) {
-    const { setVideos, view, setIsOpen, videos,handleClear } = useVideoContext();
+    const { setVideos, view, setIsOpen, videos,handleClear,handleShow } = useVideoContext();
 
     function togleFavorite(id) {
         const favoritesVideos = [...videos].map((video) => {
@@ -22,13 +22,14 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
         <>
             <div className='videoCard' key={videos.idLocalStorage} id={view}>
                 <img className='videoCard__thumbnail' id={view} src={image} alt="img" onClick={() => {
-                    setIsOpen(true)
+                    // setIsOpen(true)
+                    handleShow()
 
                 }} />
                 <div className='videoCard__text' id={view} >
                     <h4>{title}</h4>
-                    {views ?<p>VIEWS: {views}</p>:null}
-                    {likes ?<p>LIKES: {likes}</p>:null}
+                 <p>VIEWS: {views}</p>
+                   <p>LIKES: {likes}</p>
                     <p>addition date: {additionDate}</p>
                 </div>
                 <div className='videoCard__action' id={view}>
