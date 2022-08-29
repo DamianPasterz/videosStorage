@@ -1,22 +1,36 @@
-import InputComponent from './components/InputComponent';
-import VideoPage from './components/VideoPage'
-import NavbarComponent from './components/Navbar';
+import styled from 'styled-components';
+
+import BootstrapModal from './components/Modal/bootstrapModal'
 import FilterNav from './components/FilterNav';
-import BootstrapModal from './tools/bootstrapModal'
+import InputComponent from './components/InputComponent';
+import NavbarComponent from './components/Navbar';
+import { GlobalStyles } from './components/style/GlobalStyle.style';
 import { useVideoContext } from './context/VideoContext';
+import VideoPage from './components/VideoPage'
 
 function App() {
-  const { alert, idLocalStorage, currentMovie} = useVideoContext();
+  const { alert, idLocalStorage, currentMovie } = useVideoContext();
   return (
-    <div>
+    <Contanier>
+      <GlobalStyles/>
       <NavbarComponent />
-      <h4>Add link or ID</h4>
       <InputComponent />
       <FilterNav />
       <VideoPage />
-      <BootstrapModal alert = {alert} id={idLocalStorage} currentMovie = {currentMovie}/>
-    </div>
+      <BootstrapModal alert={alert} id={idLocalStorage} currentMovie={currentMovie}/>
+    </Contanier>
   );
 }
 
 export default App;
+
+const Contanier = styled.div`
+padding: 0;
+margin: 0;
+display: flex;
+align-items: center;
+height: 100vh;
+width: 100vw;
+flex-direction: column;
+`
+

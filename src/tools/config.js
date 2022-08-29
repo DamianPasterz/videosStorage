@@ -1,26 +1,26 @@
 const config = {
-   provider : {
+   provider: {
       YOUTUBE:'YOUTUBE',
       VIMEO:'VIMEO',
    },
-   status : {
+   status: {
       FAVOURITE:'favourite',
       ALL:'all'
    },
-   filter : {
+   filter: {
       filterFromAToZ:'filterFromAToZ',
       filterFromZToA:'filterFromZToA',
       filterFromOldToNew:'filterFromOldToNew',
       filterFromNewToOld:'filterFromNewToOld',
    },
-   message : {
+   message: {
       alertAllDelete:'Do you want to delete all videos?',
       alertSingleDelete:'Do you want to delete this video?',
       toastSuccses:"Demo loaded correctly",
       toastWarning:'You have already uploaded the demo',
       toastInputIncorect:'Incorrect input!',
    },
-   url : {
+   url: {
       YouTubeMovieUrl:'https://www.youtube.com/watch?v=',
       VimeoMovieUrl:'https://www.vimeo.com/',
       VimeoFetchUrl: 'https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/',

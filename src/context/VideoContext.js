@@ -14,14 +14,13 @@ export const VideoProvider = ({ children }) => {
     const [status, setStatus] = useState('all');
     const [filterVideos, setFilterVideos] = useState([]);
     const [view, setView] = useState("grid")
-    const [isOpen, setIsOpen] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [demoLoad, setdemoLoad] = useState(true);
     const [alert, setAlert] = useState('');
     const [id, setId] = useState();
     const [show, setShow] = useState(false);
     const [currentMovie, setCurrentMovie] = useState()
-// console.log(currentMovie);
+
 
   const handleClose = () => {
     setShow(false);
@@ -35,7 +34,8 @@ export const VideoProvider = ({ children }) => {
     setAlert();
 };
 
-  const handleShow = () => setShow(true);
+    const handleShow = () => setShow(true);
+
     let sortVideos = [...filterVideos]
 
     function handleDemo() {
@@ -115,6 +115,8 @@ export const VideoProvider = ({ children }) => {
     }
 
     async function getYtObject(newId) {
+       
+        
         const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
         const fetchUrl = `${config.url.YouTubFetchUrl}${newId}&key=${api_key}${config.url.YouTubeSnipetPartUrl}`
         const movieUrl = `${config.url.YouTubeMovieUrl}${newId}`;
@@ -154,8 +156,9 @@ export const VideoProvider = ({ children }) => {
             favourite: false,
         }
         if (videos.find(item => item.id === newItem.id)) {
+            setTimeout(setLoading(false),3200) ;
             warniNgnotyfi();
-            setLoading(false);
+           
             return
         }
         successNotify()
@@ -176,6 +179,7 @@ export const VideoProvider = ({ children }) => {
 
     }
     const destructurizeVimeoObject = (data, movieUrl) => {
+        console.log(loading);
         const {
             title,
             thumbnail_url,
@@ -194,7 +198,7 @@ export const VideoProvider = ({ children }) => {
         };
         if (videos.find(item => item.id === newItem.id)) {
             warniNgnotyfi();
-            setLoading(false);
+            setLoading(false)
             return;
         }
         setVideos([...videos, newItem])
@@ -218,8 +222,6 @@ export const VideoProvider = ({ children }) => {
                 filterVideos,
                 view,
                 setView,
-                isOpen,
-                setIsOpen,
                 handleDemo,
                 alert,
                 successDeleteNotify,
@@ -236,8 +238,10 @@ export const VideoProvider = ({ children }) => {
                 id,
                 currentMovie,
                 setCurrentMovie,
+                status,
                 setLoading,
-                status
+                loading,
+            
                
             }
             }>

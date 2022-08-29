@@ -1,48 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 import { useVideoContext } from '../context/VideoContext';
 import VideoCard from "./VideoCard"
 import PaginationModule from "./Pagination"
-import "../index.css"
 import config from '../tools/config';
+import { FlexContanier } from "./style/FlexContanier.style";
 
 function PageVideo() {
     const { videos, filterVideos, view, setCurrentMovie, currentMovie, status } = useVideoContext();
    
     const [currentPage, setCurrentPage] = useState();
 
-    const videosPerPage = 5;
+    const videosPerPage = 8;
     const indexOfLastVideos = currentPage * videosPerPage
     const indexOfFirstVideo = indexOfLastVideos - videosPerPage
     const currentVideos = filterVideos.slice(indexOfFirstVideo, indexOfLastVideos)
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
-    console.log(status);
     
     useEffect(() => {
         if (status === config.status.ALL) {
             setCurrentPage(currentPage)
-            console.log('1');
         }
+
         if (status === config.status.FAVOURITE) {
-            setCurrentPage(1)
         }
-      
-        console.log('1');
-        
     }, [filterVideos])
 
     useEffect(() => {
-        console.log('2');
-        
         setCurrentPage(1)
     }, [])
 
     return (
-        <div className='pageVideo'>
-            <div className='pageVideos__videos' id={view} >
+        <VideoPage>
+            <VideoPageVideo id={view} >
                 {currentVideos.map((video) => {
                     return (
-                        <div className='pageVideos__videos' key={video.idLocalStorage} id={view}>
+                        <VideoPageVideo key={video.idLocalStorage} id={view}>
                             <div onClick={() => {
                                 setCurrentMovie(video.aUrl)
                             }} >
@@ -60,11 +54,11 @@ function PageVideo() {
                                 >
                                 </VideoCard>
                             </div>
-                        </div>
+                        </VideoPageVideo>
                     )
                 }
             )}
-            </div>
+            </VideoPageVideo>
             <PaginationModule
                 posts = {currentVideos}
                 videos = {videos}
@@ -76,9 +70,19 @@ function PageVideo() {
                 filterVideos = {filterVideos}
                 currentMovie = {currentMovie}
             />
-          
-        </div>
+        </VideoPage>
     )
 }
 export default PageVideo
 
+const VideoPage = styled(FlexContanier)`
+flex-direction: column;
+  ${({id})=>id=== 'list'? "":' width: 1110px;  ' } 
+`
+const VideoPageVideo = styled(FlexContanier)`
+    ${({id})=>id=== 'list'?"":'display: flex;  ' }
+    padding-left: 13px;
+    padding-right: 13px;
+    flex-wrap: wrap;
+    justify-content: center;
+`
