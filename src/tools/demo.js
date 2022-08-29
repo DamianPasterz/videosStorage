@@ -1,5 +1,4 @@
 const demo =
-
     [
         {
             "id": 400209878,
@@ -7,7 +6,7 @@ const demo =
             "title": "Returning (Trailer)",
             "imageUrl": "https://i.vimeocdn.com/video/937982743-97d95718b82ea2ad460e7c806985c91b2f1954a3db04779b22c66692514525b3-d_295x166",
             "provider": "VIMEO",
-            "additionDate": "Wednesday at 6:26 PM",
+            "additionDate": "08/28/2022",
             "aUrl": "https://www.vimeo.com/400209878",
             "favourite": false
         },
@@ -20,7 +19,7 @@ const demo =
             "provider": "YOUTUBE",
             "aUrl": "https://www.youtube.com/watch?v=qE95PTxEtoU",
             "imageUrl": "https://i.ytimg.com/vi/qE95PTxEtoU/default.jpg",
-            "additionDate": "Wednesday at 6:27 PM",
+            "additionDate": "08/28/2022",
             "favourite": false
         },
         {
@@ -32,7 +31,7 @@ const demo =
             "provider": "YOUTUBE",
             "aUrl": "https://www.youtube.com/watch?v=4mnrlK8gdfY",
             "imageUrl": "https://i.ytimg.com/vi/4mnrlK8gdfY/default.jpg",
-            "additionDate": "Wednesday at 6:44 PM",
+            "additionDate": "08/28/2022",
             "favourite": false
         },
         {
@@ -44,7 +43,7 @@ const demo =
             "provider": "YOUTUBE",
             "aUrl": "https://www.youtube.com/watch?v=-JUyV5e4O-s",
             "imageUrl": "https://i.ytimg.com/vi/-JUyV5e4O-s/default.jpg",
-            "additionDate": "Wednesday at 6:45 PM",
+            "additionDate": "08/28/2022",
             "favourite": false
         },
         {
@@ -56,7 +55,7 @@ const demo =
             "provider": "YOUTUBE",
             "aUrl": "https://www.youtube.com/watch?v=tAGnKpE4NCI",
             "imageUrl": "https://i.ytimg.com/vi/tAGnKpE4NCI/default.jpg",
-            "additionDate": "Wednesday at 6:45 PM",
+            "additionDate": "08/28/2022",
             "favourite": false
         },
         {
@@ -68,7 +67,7 @@ const demo =
             "provider": "YOUTUBE",
             "aUrl": "https://www.youtube.com/watch?v=u9Dg-g7t2l4",
             "imageUrl": "https://i.ytimg.com/vi/u9Dg-g7t2l4/default.jpg",
-            "additionDate": "Wednesday at 6:45 PM",
+            "additionDate": "08/28/2022",
             "favourite": false
         },
         {
@@ -77,7 +76,7 @@ const demo =
             "title": "ADIDAS FT. RICK & MORTY - X SPEEDPORTAL",
             "imageUrl": "https://i.vimeocdn.com/video/1472007181-73e69fc0c310e281c90338ff4d875f827199821fed7390fc7b48c00b2b94c6e8-d_295x166",
             "provider": "VIMEO",
-            "additionDate": "Wednesday at 6:47 PM",
+            "additionDate": "08/28/2022",
             "aUrl": "https://www.vimeo.com/731378604",
             "favourite": false
         },
@@ -87,7 +86,7 @@ const demo =
             "title": "This is Home - Kurt Sorge | SHIMANO",
             "imageUrl": "https://i.vimeocdn.com/video/1472704928-1f01c027d9bb98508c9430c291090348fe0f39dd8e5a7011e649db6da6c1e21e-d_295x166",
             "provider": "VIMEO",
-            "additionDate": "Wednesday at 6:48 PM",
+            "additionDate": "08/28/2022",
             "aUrl": "https://www.vimeo.com/724918260",
             "favourite": false
         },
@@ -100,10 +99,8 @@ const demo =
             "provider": "YOUTUBE",
             "aUrl": "https://www.youtube.com/watch?v=Tyxdouj2X90",
             "imageUrl": "https://i.ytimg.com/vi/Tyxdouj2X90/default.jpg",
-            "additionDate": "Wednesday at 6:53 PM",
+            "additionDate": "08/28/2022",
             "favourite": false
         }
     ]
-
-
 export default demo;

@@ -1,0 +1,33 @@
+.modal-content{
+    margin: 0;
+    padding: 0;
+    /* border: none; */
+    border: 1px solid  #F2EA77;
+    box-shadow: 5px 5px 10px black;
+    background-color:  rgba(135, 140, 2, 1);
+   
+}
+
+.modal-header{
+    background-color:  rgba(135, 140, 2, 1);
+    
+    margin: 0;
+    
+    
+}
+
+.modal-body{
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:  rgba(135, 140, 2, 1);
+    /* margin-bottom: 50px; */
+    
+}
+
+.modal-footer {
+    background-color:  rgba(135, 140, 2, 1) !important;
+    border: none;
+}
+
