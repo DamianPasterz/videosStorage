@@ -3,13 +3,30 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import styled from 'styled-components';
 
-import { useVideoContext } from "../context/VideoContext"
-import { FlexContanier } from './style/FlexContanier.style'
 
-function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, favourite}) {
+import { useVideoContext, Video } from "../context/VideoContext"
+import { FlexContanier } from './style/FlexContanier.style'
+import { StyleProps } from'../tools/types'
+
+type VideoCardProps = {
+    videos:Video[]
+    image: string,
+    title: string,
+    views: string,
+    likes: string,
+    url: string,
+    additionDate: string,
+    idLocalStorage: string,
+    favourite: boolean,
+    children: React.ReactNode;
+}
+
+
+
+function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, favourite}:VideoCardProps) {
     const { setVideos, view, videos, handleClear, handleShow } = useVideoContext();
 
-    function togleFavorite(idLocalStorage) {
+    function togleFavorite(idLocalStorage: string) {
         const favoritesVideos = [...videos].map((video) => {
             if (video.idLocalStorage === idLocalStorage) {
                 video.favourite = !video.favourite
@@ -20,7 +37,7 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
     }
 
     return (
-            <CardVideo key={videos.idLocalStorage} id={view}>
+            <CardVideo key={idLocalStorage} id={view}>
                 <img className='videoCard__thumbnail' id={view} src={image} alt="img" onClick={() => { handleShow()}} />
                 <h4>{title}</h4>
                 <VideoCardBody id={view}>
@@ -47,14 +64,14 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
 
 export default VideoCard
 
-const ButtonAction = styled.div`
+const ButtonAction = styled.div<StyleProps>`
     padding-bottom: 5px;
     padding-top: 10px;
     font-size: 15px;
     text-align: center;
     border-radius: 10px;
     cursor: pointer;
-    color:${({favourite})=> favourite===true
+    color:${({favourite}) => favourite === true
             ? 'red'
             : null
             };
@@ -88,6 +105,7 @@ const CardVideo = styled(FlexContanier)`
             box-shadow: 5px 5px 15px var(--Green3);
             border-radius: 10px;
             cursor: pointer;
+            
         }
         & > h4 {
             overflow: hidden;
@@ -100,7 +118,7 @@ const CardVideo = styled(FlexContanier)`
                 overflow: hidden;
                 text-overflow: ellipsis;
                 width: 210px;`} 
-                padding-left: ${({id})=> id === 'list'
+            padding-left: ${({id})=> id === 'list'
             ? `55px;`
             : null}
         }`
@@ -136,7 +154,9 @@ const VideoCardAction = styled.div`
         height: 40px;
         margin-top: 15px;
         margin-left: 240px;`
-   :` margin-top: 5px;`} 
+        
+   :` margin-top: 12px;
+   margin-bottom: 15px`} 
 `
 
 

@@ -4,9 +4,23 @@ import Pagination from "react-bootstrap/Pagination";
 import { FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from 'react-icons/fa'
 import styled from 'styled-components';
 
+import{ StyleProps } from '../tools/types'
+import { Video } from '../context/VideoContext';
+
+type PaginationTypes = {
+  videosPerPage: number,
+  paginate: CallableFunction,
+  currentPage: number,
+  setCurrentPage: CallableFunction,
+  posts: Video[],
+  filterVideos: Video[],
+  videos: Video[],
+  totalVideos: any,
+  currentMovie: string
+}
 
 
-function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage, posts, filterVideos}) {
+function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage, posts, filterVideos, videos, totalVideos, currentMovie}:PaginationTypes) {
     useEffect(() => {
         if (posts?.length === 0 && currentPage > 1) {
             setCurrentPage(currentPage);
@@ -46,8 +60,6 @@ function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage
     
 export default PaginationModule
 
-
-
 const PaginateContainer = styled.div`
   display: flex;
   align-items: center;
@@ -58,7 +70,7 @@ const PaginateContainer = styled.div`
   color: black;
 `
 
-const PaginationItem = styled.button`
+const PaginationItem = styled.button<StyleProps>`
     display: flex;
     align-items: center;
     justify-content: center;
