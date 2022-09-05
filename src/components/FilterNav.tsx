@@ -10,7 +10,6 @@ import { FlexContanier } from './style/FlexContanier.style';
 const FilterNav = () => {
     const { handleClearAll, setView, view, handleDemo } = useVideoContext();
 
-   
     return (
         <FilterBody>
             <FilterAction>
@@ -51,7 +50,6 @@ const FilterBody = styled(FlexContanier)`
 
 const FilterAction = styled(FlexContanier)`
 `
-
 const NawbarBtn = styled.button`
     width: 120px;
     height: 30px;
@@ -62,12 +60,11 @@ const NawbarBtn = styled.button`
     background: var(--Green1);
         &:hover {
             border-radius: 10px;
-            border: 1px solid var(--Green2) ;
             color:  var(--White);
         }`
 
 const ButonWiew = styled.div`
+ cursor: pointer;
     &:hover :nth-child(1){
             color:  var(--White);
-    }
-    `
+    }`

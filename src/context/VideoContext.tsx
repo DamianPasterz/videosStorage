@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { createContext, MouseEventHandler, useContext, useEffect, useState } from 'react'
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import {  toast } from 'react-toastify';
@@ -8,35 +8,88 @@ import useLocalStorage from '../tools/useLocalStorageHook';
 import demo from '../tools/demo'
 import config from '../tools/config'
 
-export const VideoContext = React.createContext();
-export const VideoProvider = ({ children }) => {
-    const [videos, setVideos] = useLocalStorage("videos", []);
-    const [status, setStatus] = useState('all');
-    const [filterVideos, setFilterVideos] = useState([]);
-    const [view, setView] = useState("grid")
-    const [loading, setLoading] = useState(true)
-    const [demoLoad, setdemoLoad] = useState(true);
-    const [alert, setAlert] = useState('');
-    const [id, setId] = useState();
-    const [show, setShow] = useState(false);
-    const [currentMovie, setCurrentMovie] = useState()
+export interface ContextTyp {
+    filterFromZToA:()=> void
+    filterFromAToZ:()=> void
+    filterFromNewToOld:()=> void
+    filterFromOldToNew:()=> void
+    videos:Video[]
+    setStatus: CallableFunction
+    handleDemo: MouseEventHandler
+    setView: CallableFunction,
+    handleClearAll: MouseEventHandler,
+    setVideos: CallableFunction,
+    setCurrentMovie: CallableFunction
+    handleClear: CallableFunction,
+    handleShow: CallableFunction,
+    status: string,
+    filterVideos: Video[],
+    view: string,
+    loading: boolean,
+    demoLoad: boolean,
+    alert: string,
+    show: boolean,
+    currentMovie:string,
+    idLocalStorage: string,
+    getYtObject: CallableFunction,
+    getVimeoObject: CallableFunction,
+    setLoading: CallableFunction,
+    currentVideos: string,
+    handleClose: ()=> void,
+    handleCloseAprroved: ()=> void,
+    handleCloseAprrovedSingle: (id:string)=> void,
+    id: string,
+  
+   
+  
+}
 
+type VideoProviderType = {
+    children: React.ReactNode
+}
+
+export interface Video {
+    id: string,
+    items:string[],
+    aUrl: string,
+    additionDate: string,
+    favourite: boolean,
+    idLocalStorage: string,
+    imageUrl: string,
+    likeCount: string,
+    provider: string,
+    title: any,
+    viewCount: string,
+    movieUrl: string,   
+}
+
+export const VideoContext = createContext<ContextTyp>(null!);
+export const VideoProvider = ({ children }: VideoProviderType)=> {
+    const [videos, setVideos] = useLocalStorage("videos", []);
+    const [status, setStatus] = useState<string>(config.status.ALL);
+    const [filterVideos, setFilterVideos] = useState<Video[]>(videos);
+    const [view, setView] = useState<string>("grid")
+    const [loading, setLoading] = useState<boolean>(true)
+    const [demoLoad, setdemoLoad] = useState<boolean>(true);
+    const [alert, setAlert] = useState<string>('');
+    const [id, setId] = useState<string>('');
+    const [show, setShow] = useState<boolean>(false);
+    const [currentMovie, setCurrentMovie] = useState<string>('')
 
   const handleClose = () => {
     setShow(false);
-    setAlert()
+
 };
   const handleCloseAprroved = () => {
     setShow(false)
     successDeleteNotify()
     setVideos([])
     setdemoLoad(true);
-    setAlert();
 };
 
     const handleShow = () => setShow(true);
 
-    let sortVideos = [...filterVideos]
+    let sortVideos:Video[] = [...filterVideos]
 
     function handleDemo() {
             if (demoLoad) {
@@ -54,26 +107,26 @@ export const VideoProvider = ({ children }) => {
         
     }
 
-    function handleClear(idLocalStorage) {
+    function handleClear(idLocalStorage:string) {
         setAlert(config.message.alertSingleDelete)
         setId(idLocalStorage)
         handleShow()
 
-        return id;
+        return idLocalStorage;
     }
 
-    function handleDelete(id) {
-        let deletedVideos = videos.filter((element) => {
-            return element.idLocalStorage !== id
+    function handleDelete(idLocalStorage: string):void {
+        let deletedVideos: Video = videos.filter(( element: { idLocalStorage: string; } ) => {
+            return element.idLocalStorage !== idLocalStorage
         })
         setVideos(deletedVideos)
       }
 
-      const handleCloseAprrovedSingle = (id) => {
+      const handleCloseAprrovedSingle = (idLocalStorage:string) => {
         setShow(false)
         successDeleteNotify()
-        handleDelete(id)
-        setAlert();
+        handleDelete(idLocalStorage)
+      
     };
 
     const successNotify = () => toast.success('Video added to the database!');
@@ -84,7 +137,7 @@ export const VideoProvider = ({ children }) => {
     useEffect(() => {
         switch (status) {
             case config.status.FAVOURITE:
-                setFilterVideos(videos.filter(video => video.favourite === true));
+                setFilterVideos(videos.filter((video: { favourite: boolean; })=> video.favourite === true));
                 break;
             default:
                 setFilterVideos(videos);
@@ -93,41 +146,41 @@ export const VideoProvider = ({ children }) => {
 
     }, [videos, status]);
     
-    function filterFromAToZ() {
+    function filterFromAToZ():void {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() > b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() > a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
-    function filterFromZToA() {
+    function filterFromZToA():void {
         sortVideos = sortVideos.sort((a, b) => (a.title.toLowerCase() < b.title.toLowerCase()) ? 1 : (b.title.toLowerCase() < a.title.toLowerCase()) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
-    function filterFromNewToOld() {
+    function filterFromNewToOld():void {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate > b.additionDate) ? 1 : (b.additionDate > a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
     
-    function filterFromOldToNew() {
+    function filterFromOldToNew():void {
         sortVideos = sortVideos.sort((a, b) => (a.additionDate < b.additionDate) ? 1 : (b.additionDate < a.additionDate) ? -1 : 0)
         setFilterVideos(sortVideos)
     }
 
-    async function getYtObject(newId) {
-       
-        
+    async function getYtObject(newId: string):Promise<void> {
         const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
         const fetchUrl = `${config.url.YouTubFetchUrl}${newId}&key=${api_key}${config.url.YouTubeSnipetPartUrl}`
         const movieUrl = `${config.url.YouTubeMovieUrl}${newId}`;
         const response = await fetch(fetchUrl);
+       
+        
         if (response.status === 404) {
             errorNotify();
             return;
         }
 
         const data = await response.json()
-        if (data.items?.length === 0) {
+        if (!data.items.length ) {
             errorNotify();
             return;
         }
@@ -135,11 +188,10 @@ export const VideoProvider = ({ children }) => {
         setLoading(false)
         destructurizeYoutubeObject(data, movieUrl)
     }
-    const destructurizeYoutubeObject = (data, movieUrl) => {
+    const destructurizeYoutubeObject = (data: { items: { id: string; snippet: { title: string; thumbnails: { default: { url: string; }; }; }; statistics: { viewCount: string; likeCount: string; }; }[]; }, movieUrl: string) => {
         const {
             id,
-            snippet: { title },
-            snippet: { thumbnails: { default: { url, } } },
+            snippet: {title , thumbnails: { default: { url, } } },
             statistics: { viewCount, likeCount },
         } = data.items[0];
 
@@ -155,8 +207,8 @@ export const VideoProvider = ({ children }) => {
             additionDate:moment().add(10, 'days').calendar(),
             favourite: false,
         }
-        if (videos.find(item => item.id === newItem.id)) {
-            setTimeout(setLoading(false),3200) ;
+        if (videos.find((item: { id: string; }) => item.id === newItem.id)) {
+            setLoading(false) ;
             warniNgnotyfi();
            
             return
@@ -165,7 +217,7 @@ export const VideoProvider = ({ children }) => {
         setVideos([...videos, newItem]);
     };
 
-    async function getVimeoObject(newId) {
+    async function getVimeoObject(newId:string) {
         const fetchUrl = `${config.url.VimeoFetchUrl}${newId}`
         const movieUrl = `${config.url.VimeoMovieUrl}${newId}`;
         const response = await fetch(fetchUrl)
@@ -178,8 +230,7 @@ export const VideoProvider = ({ children }) => {
         destructurizeVimeoObject(data, movieUrl);
 
     }
-    const destructurizeVimeoObject = (data, movieUrl) => {
-        console.log(loading);
+    const destructurizeVimeoObject = (data: { title: string; thumbnail_url: string; video_id: string; }, movieUrl: string) => {
         const {
             title,
             thumbnail_url,
@@ -196,7 +247,7 @@ export const VideoProvider = ({ children }) => {
             aUrl: movieUrl,
             favourite: false,
         };
-        if (videos.find(item => item.id === newItem.id)) {
+        if (videos.find((item: { id: string; }) => item.id === newItem.id)) {
             warniNgnotyfi();
             setLoading(false)
             return;

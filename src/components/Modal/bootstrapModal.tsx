@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
+import Modal, { ModalProps } from 'react-bootstrap/Modal';
 import ReactPlayer from 'react-player';
 import './bootstrapModal.css'
 import { ButtonModal } from'../style/Button.style';
@@ -7,8 +7,9 @@ import { useVideoContext } from "../../context/VideoContext"
 import config from '../../tools/config';
 import styled from 'styled-components';
 import{ AiOutlineCloseCircle } from 'react-icons/ai'
+import { Omit, BsPrefixProps } from 'react-bootstrap/esm/helpers';
 
-function BootstrapModal(props) {
+function BootstrapModal(props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>> & { ref?: ((instance: HTMLDivElement | null) => void) | React.RefObject<HTMLDivElement> | null | undefined; }, BsPrefixProps<"div"> & ModalProps> & BsPrefixProps<"div"> & ModalProps & { children?: React.ReactNode; }) {
 
   const { handleClose ,show, handleCloseAprroved,handleCloseAprrovedSingle,id, currentMovie} = useVideoContext();
 
@@ -54,7 +55,8 @@ export default BootstrapModal;
 
 
 const ModalBody = styled.div`
-    margin: 30px;
+    margin-top: 5;
+    margin-bottom: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,6 +72,7 @@ const Footer = styled.div`
     border-radius: 15px;
     background-color: var(--Green1);
     padding-bottom: 15px;
+    margin-bottom: 15px;
     background-color: var(--Green1);
 `
 
@@ -89,6 +92,7 @@ const ModalHeader = styled.div`
 const CloseButtonContanier = styled.div`
   width: 100%;
   padding-left: 730px;
+  z-index: 1000;
   &:hover :nth-child(1){
     border-radius: 50%;
     box-shadow: 3px 3px 9px var(--Green2),

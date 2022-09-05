@@ -86,16 +86,16 @@ const ButtonBody = styled.button`
         transform: translateY(0);
     }
     &:hover ul li:nth-child(1) div {
-        transition-delay: 0.20s;
+        transition-delay: 0.1s;
     }
     &:hover ul li:nth-child(2) div {
-        transition-delay: 0.30s;
+        transition-delay: 0.1s;
     }
     &:hover ul li:nth-child(3) div {
-        transition-delay: 0.40s;
+        transition-delay: 0.1s;
     }
     &:hover ul li:nth-child(4) div {
-        transition-delay: 0.50s;
+        transition-delay: 0.1s;
     }
 `
 

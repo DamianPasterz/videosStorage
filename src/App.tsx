@@ -9,7 +9,7 @@ import { useVideoContext } from './context/VideoContext';
 import VideoPage from './components/VideoPage'
 
 function App() {
-  const { alert, idLocalStorage, currentMovie } = useVideoContext();
+  const { alert, idLocalStorage, currentMovie} = useVideoContext();
   return (
     <Contanier>
       <GlobalStyles/>

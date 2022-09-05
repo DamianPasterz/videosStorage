@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { useVideoContext } from '../context/VideoContext';
+import { useVideoContext, Video } from '../context/VideoContext';
 import VideoCard from "./VideoCard"
 import PaginationModule from "./Pagination"
 import config from '../tools/config';
 import { FlexContanier } from "./style/FlexContanier.style";
 
-function PageVideo() {
+const PageVideo=() => {
     const { videos, filterVideos, view, setCurrentMovie, currentMovie, status } = useVideoContext();
    
-    const [currentPage, setCurrentPage] = useState();
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const videosPerPage = 8;
-    const indexOfLastVideos = currentPage * videosPerPage
-    const indexOfFirstVideo = indexOfLastVideos - videosPerPage
-    const currentVideos = filterVideos.slice(indexOfFirstVideo, indexOfLastVideos)
-    const paginate = (pageNumber) => setCurrentPage(pageNumber)
+    const videosPerPage:number = 8;
+    const indexOfLastVideos:number = currentPage * videosPerPage
+    const indexOfFirstVideo:number = indexOfLastVideos - videosPerPage
+    const currentVideos:Video[] = filterVideos.slice(indexOfFirstVideo, indexOfLastVideos)
+    const paginate = (pageNumber:number) => setCurrentPage(pageNumber)
     
     useEffect(() => {
         if (status === config.status.ALL) {
@@ -25,6 +25,7 @@ function PageVideo() {
 
         if (status === config.status.FAVOURITE) {
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterVideos])
 
     useEffect(() => {
@@ -51,7 +52,9 @@ function PageVideo() {
                                     url={video.aUrl}
                                     favourite={video.favourite}
                                     idLocalStorage={video.idLocalStorage}
+                                    
                                 >
+                                 
                                 </VideoCard>
                             </div>
                         </VideoPageVideo>
@@ -69,6 +72,7 @@ function PageVideo() {
                 setCurrentPage = {setCurrentPage}
                 filterVideos = {filterVideos}
                 currentMovie = {currentMovie}
+            
             />
         </VideoPage>
     )
