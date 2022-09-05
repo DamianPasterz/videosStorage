@@ -5,7 +5,7 @@ import { FaAngleDoubleLeft, FaAngleLeft, FaAngleRight, FaAngleDoubleRight } from
 import styled from 'styled-components';
 
 import{ StyleProps } from '../tools/types'
-import { Video } from '../context/VideoContext';
+import { useVideoContext, Video } from '../context/VideoContext';
 
 type PaginationTypes = {
   videosPerPage: number,
@@ -21,14 +21,17 @@ type PaginationTypes = {
 
 
 function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage, posts, filterVideos, videos, totalVideos, currentMovie}:PaginationTypes) {
+
+    const { status } =  useVideoContext();
+    const pageNumbers = [];
     useEffect(() => {
         if (posts?.length === 0 && currentPage > 1) {
             setCurrentPage(currentPage);
         }
         //eslint-disable-next-line
-      }, [filterVideos]); 
+      }, [filterVideos, status, posts]); 
       
-    const pageNumbers = [];
+    
     
     for (let number = 1; number <= Math.ceil(filterVideos?.length / videosPerPage); number++) {
         pageNumbers.push( 

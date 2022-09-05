@@ -4,32 +4,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
+import Spinner from 'react-bootstrap/Spinner';
 
 import { useVideoContext } from '../context/VideoContext'
 import config from '../tools/config'
-import { FadingDots } from 'react-cssfx-loading';
 import { FlexContanier } from './style/FlexContanier.style';
 
 const InputComponent = () => {
-    const [inputSearch, setInputSearch] = useState('');
+    const [inputSearch, setInputSearch] = useState<string>('');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [provider, setProvider] = useState<string>(config.provider.YOUTUBE);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [videoId, setVideoId] = useState<string>('');
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const { getYtObject, getVimeoObject, videos, loading, setLoading } = useVideoContext();
     useEffect(() => {
         setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [videos]);
+    }, [videos,inputSearch]);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) =>{
         event.preventDefault();
         const newProvider:string  = getVideoId(inputSearch)?.service?.toUpperCase()!;
         const newId:string  = getVideoId(inputSearch)?.id!;
-        console.log(newProvider);
-        
-        if (!newProvider || !newId) return;
-
         setProvider(newProvider);
         setVideoId(newId);
         setInputSearch('');
@@ -43,12 +40,12 @@ const InputComponent = () => {
     const youtubeIDLength = 11;
     const minYoutubeURLLength = 13;
     const minInput = 8;
-    const incorrectInputNotify = () => toast.warning(config.message.toastInputIncorect);
+    const incorrectInputNotify:()=>void = () => toast.warning(config.message.toastInputIncorect);
    
     function urlOrIdValidation(newProvider:string, newId:string):void {
         
         if (inputSearch?.length === vimeoIDLength && inputSearch.split('').every(Number)) {
-            newId = videoId;
+            newId = inputSearch;
             newProvider = config.provider.VIMEO;
             setProvider(newProvider);
             setVideoId(newId);
@@ -63,7 +60,7 @@ const InputComponent = () => {
         }
         
         if (inputSearch?.length === youtubeIDLength && !inputSearch.toUpperCase().includes(config.provider.YOUTUBE)) {
-            newId = videoId;
+            newId = inputSearch;
             newProvider = config.provider.YOUTUBE;
             setProvider(newProvider);
             setVideoId(newId);
@@ -71,7 +68,6 @@ const InputComponent = () => {
         }
         
         if (inputSearch?.length > minYoutubeURLLength && newProvider === config.provider.YOUTUBE && newId?.length === youtubeIDLength) {
-            console.log("dupa");
             newProvider = config.provider.YOUTUBE;
             setProvider(newProvider);
             setVideoId(newId);
@@ -86,10 +82,9 @@ const InputComponent = () => {
    
     return (
         <InputContanier>
-           
             <Form onSubmit={handleSubmit}>
             <Loader>
-                    {loading?(<FadingDots color={'var(--Green1)'} width="30px" height="30px" duration="1s" />): ""}
+                    {loading?( <Spinner animation="border" variant="warning" role="status"><span className="visually-hidden">Loading...</span></Spinner>): ""}
             </Loader>
                 <Input 
                     type='text'

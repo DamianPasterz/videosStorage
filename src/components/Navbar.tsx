@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 import config from '../tools/config';
 import { FlexContanier } from './style/FlexContanier.style';
-
 import { StyleProps } from'../tools/types'
 
 const NavbarComponent = () => {
@@ -31,7 +30,6 @@ const NavbarComponent = () => {
 
 export default NavbarComponent;
 
-
 const NawbarBody = styled.div`
     display: flex;
     height: 40px;
@@ -48,7 +46,6 @@ const NawbarBody = styled.div`
 `
 
 const NawbarBtn = styled(FlexContanier)<StyleProps>`
-
     padding-right: 10px;
     padding-left: 10px;
     margin-right: 15px;
@@ -56,42 +53,38 @@ const NawbarBtn = styled(FlexContanier)<StyleProps>`
     border-radius: 10px;
     border: 1px solid var(--Green1);
     background-color: ${({status})=> status === config.status.FAVOURITE
-    ? `var(--Green2);
-    cursor: default;`
+    ? `var(--Green2); 
+      cursor: default;`
     : `var(--Green1);
-    cursor: pointer;`};
+      cursor: pointer;`};
     border-radius: 10px;
     color: var(--Dark);
   &>p{
-    padding-top: 5px;
-    padding-bottom: 3px;
-    margin: 0;
-    margin-right: 5px;
+      padding-top: 5px;
+      padding-bottom: 3px;
+      margin: 0;
+      margin-right: 5px;
   }
   &:hover{
-    color: ${({status})=> status === config.status.FAVOURITE
-    ? `var(--Dark);
-    cursor: default;`
-    : `var(--Dark);
-    cursor: pointer;`};
-  }
-  
-  
+      color: ${({status})=> status === config.status.FAVOURITE
+      ? `var(--Dark);
+        cursor: default;`
+      : `var(--Dark);
+        cursor: pointer;`};
+  }  
 `
-
 const NawbarBtnAll = styled(NawbarBtn)`
      background-color: ${({status})=> status === config.status.ALL
     ? `var(--Green2);
-    cursor: default;`
+      cursor: default;`
     : `var(--Green1);
-    cursor: pointer;`};
+      cursor: pointer;`};
      &:hover{
     color: ${({status})=> status === config.status.ALL
     ? `var(--Dark);
-    cursor: default;`
+      cursor: default;`
     : `var(--Dark);
-    cursor: pointer;`};
+      cursor: pointer;`};
   }
-      
-      
+           
 `

@@ -168,10 +168,6 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
     }
 
     async function getYtObject(newId: string):Promise<void> {
-       
-        console.log("dupa1");
-        console.log(newId);
-        
         const api_key = process.env.REACT_APP_KEY_YOUTUBE_API
         const fetchUrl = `${config.url.YouTubFetchUrl}${newId}&key=${api_key}${config.url.YouTubeSnipetPartUrl}`
         const movieUrl = `${config.url.YouTubeMovieUrl}${newId}`;
