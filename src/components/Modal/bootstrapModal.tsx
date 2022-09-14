@@ -2,17 +2,20 @@ import React from 'react';
 import Modal, { ModalProps } from 'react-bootstrap/Modal';
 import ReactPlayer from 'react-player';
 import './bootstrapModal.css'
+import{ AiOutlineCloseCircle } from 'react-icons/ai'
+import styled from 'styled-components';
+
 import { ButtonModal } from'../style/Button.style';
 import { useVideoContext } from "../../context/VideoContext"
 import config from '../../tools/config';
-import styled from 'styled-components';
-import{ AiOutlineCloseCircle } from 'react-icons/ai'
 import { Omit, BsPrefixProps } from 'react-bootstrap/esm/helpers';
 
-function BootstrapModal(props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>> & { ref?: ((instance: HTMLDivElement | null) => void) | React.RefObject<HTMLDivElement> | null | undefined; }, BsPrefixProps<"div"> & ModalProps> & BsPrefixProps<"div"> & ModalProps & { children?: React.ReactNode; }) {
 
-  const { handleClose ,show, handleCloseAprroved,handleCloseAprrovedSingle,id, currentMovie} = useVideoContext();
+function BootstrapModal(this: any, props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>> & { ref?: ((instance: HTMLDivElement | null) => void) | React.RefObject<HTMLDivElement> | null | undefined; }, BsPrefixProps<"div"> & ModalProps> & BsPrefixProps<"div"> & ModalProps & { children?: React.ReactNode; }) {
 
+  const { handleClose ,show, handleCloseAprroved, handleCloseAprrovedSingle, id, currentMovie} = useVideoContext();
+
+  
   return (
     <>
       <Modal  show={show} onHide={handleClose} 
@@ -22,6 +25,8 @@ function BootstrapModal(props: JSX.IntrinsicAttributes & Omit<Pick<React.Detaile
         centered
       >
         <ModalHeader  >
+        <FullScreenContanier>
+          </FullScreenContanier>
           <CloseButtonContanier>
           <AiOutlineCloseCircle onClick={handleClose} color={'black'} size={'2rem'}/>
           </CloseButtonContanier>
@@ -90,8 +95,7 @@ const ModalHeader = styled.div`
 `
     
 const CloseButtonContanier = styled.div`
-  width: 100%;
-  padding-left: 730px;
+  margin-left: 680px;
   z-index: 1000;
   &:hover :nth-child(1){
     border-radius: 50%;
@@ -99,4 +103,16 @@ const CloseButtonContanier = styled.div`
                 -3px -3px 9px var(--Green2);
   }
 `
+
+const FullScreenContanier = styled.div`
+cursor: pointer;
+z-index: 1000;
+  &:hover :nth-child(1){
+    border-radius: 50%;
+    box-shadow: 3px 3px 9px var(--Green2),
+                -3px -3px 9px var(--Green2);
+  }
+`
+
+
 

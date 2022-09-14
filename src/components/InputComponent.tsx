@@ -43,8 +43,9 @@ const InputComponent = () => {
     const incorrectInputNotify:()=>void = () => toast.warning(config.message.toastInputIncorect);
    
     function urlOrIdValidation(newProvider:string, newId:string):void {
+    
         
-        if (inputSearch?.length === vimeoIDLength && inputSearch.split('').every(Number)) {
+        if (inputSearch?.length === vimeoIDLength && !inputSearch.toUpperCase().includes(config.provider.VIMEO)) {
             newId = inputSearch;
             newProvider = config.provider.VIMEO;
             setProvider(newProvider);
@@ -92,6 +93,7 @@ const InputComponent = () => {
                     id='url'
                     placeholder="Your movie's URL/ID"
                     value={inputSearch}
+                    autoComplete="off"
                     onChange={e => {
                         setInputSearch(e.target.value)
                         if (e.target.value?.length >= minInput) {
@@ -118,6 +120,7 @@ const InputContanier = styled(FlexContanier)`
 const ButtonAdd = styled.button`
     height: 40px;
     width: 80px;
+    margin-left: 5px;
     border-radius: 10px;
     background-color:var(--Green1);
     border: 1px solid black;

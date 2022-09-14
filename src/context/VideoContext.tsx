@@ -21,7 +21,7 @@ export interface ContextTyp {
     setVideos: CallableFunction,
     setCurrentMovie: CallableFunction
     handleClear: CallableFunction,
-    handleShow: CallableFunction,
+    handleShow: ()=> void,
     status: string,
     filterVideos: Video[],
     view: string,
@@ -85,6 +85,7 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
     successDeleteNotify()
     setVideos([])
     setdemoLoad(true);
+    setStatus(config.status.ALL);
 };
 
     const handleShow = () => setShow(true);
@@ -104,6 +105,7 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
     function handleClearAll() {
         setAlert(config.message.alertAllDelete)
         handleShow();
+      
         
     }
 
@@ -214,7 +216,8 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
             return
         }
         successNotify()
-        setVideos([...videos, newItem]);
+        setVideos([newItem, ...videos]);
+        
     };
 
     async function getVimeoObject(newId:string) {
@@ -252,7 +255,7 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
             setLoading(false)
             return;
         }
-        setVideos([...videos, newItem])
+        setVideos([newItem, ...videos]);
         successNotify();
     };
 

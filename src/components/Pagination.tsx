@@ -25,8 +25,8 @@ function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage
     const { status } =  useVideoContext();
     const pageNumbers = [];
     useEffect(() => {
-        if (posts?.length === 0 && currentPage > 1) {
-            setCurrentPage(currentPage);
+        if (posts?.length === 0 && currentPage > 1 ) {
+            setCurrentPage(currentPage - 1);
         }
         //eslint-disable-next-line
       }, [filterVideos, status, posts]); 
@@ -50,11 +50,11 @@ function PaginationModule({ videosPerPage, paginate, currentPage, setCurrentPage
         <PaginateContainer>
         
           <Pagination>
-              <PaginationArrow onClick={() => paginate(1)} disabled={currentPage === 1}> <FaAngleDoubleLeft/> </PaginationArrow>
-              <PaginationArrow onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} ><FaAngleLeft/></PaginationArrow>
+              <PaginationArrow onClick={() => paginate(1)} disabled={currentPage === 1 || posts?.length === 0}> <FaAngleDoubleLeft/> </PaginationArrow>
+              <PaginationArrow onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1 || posts?.length === 0} ><FaAngleLeft/></PaginationArrow>
                {pageNumbers}
-              <PaginationArrow onClick={() => paginate(currentPage + 1)} disabled={currentPage === pageNumbers?.length} ><FaAngleRight/></PaginationArrow>
-              <PaginationArrow onClick={() => paginate(pageNumbers?.length)} disabled={currentPage === pageNumbers?.length}><FaAngleDoubleRight/></PaginationArrow>
+              <PaginationArrow onClick={() => paginate(currentPage + 1)} disabled={currentPage === pageNumbers?.length || posts?.length === 0} ><FaAngleRight/></PaginationArrow>
+              <PaginationArrow onClick={() => paginate(pageNumbers?.length)} disabled={currentPage === pageNumbers?.length || posts?.length === 0}><FaAngleDoubleRight/></PaginationArrow>
                 
           </Pagination>
         </PaginateContainer>

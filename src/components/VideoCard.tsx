@@ -1,12 +1,15 @@
 import React from 'react'
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
+import { AiOutlineFullscreen } from 'react-icons/ai';
 import styled from 'styled-components';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useVideoContext, Video } from "../context/VideoContext"
 import { FlexContanier } from './style/FlexContanier.style'
 import { StyleProps } from'../tools/types'
+import { Link } from 'react-router-dom';
 
 type VideoCardProps = {
     videos:Video[]
@@ -24,7 +27,7 @@ type VideoCardProps = {
 
 
 function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, favourite}:VideoCardProps) {
-    const { setVideos, view, videos, handleClear, handleShow } = useVideoContext();
+    const { setVideos, view, videos, handleClear, handleShow, setCurrentMovie, currentMovie } = useVideoContext();
 
     function togleFavorite(idLocalStorage: string) {
         const favoritesVideos = [...videos].map((video) => {
@@ -34,6 +37,7 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
             return video
         })
         setVideos(favoritesVideos)
+        toast.success('Video added to the Favourites!');
     }
 
     return (
@@ -42,20 +46,27 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
                 <h4>{title}</h4>
                 <VideoCardBody id={view}>
                 <VideoCardText id={view}>
-                    <p>VIEWS: {views}</p>
-                    <p>LIKES: {likes}</p>
+                    <p>VIEWS: {views? views:'-'}</p>
+                    <p>LIKES: {likes? likes:'-'}</p>
                     <p>{additionDate}</p>
                 </VideoCardText >
                 <VideoCardAction  id={view}>
                     <ButtonAction favourite={favourite} > 
-                    <FaHeart  size='1.5rem'
+                    <FaHeart  size='1rem' 
                         onClick={() => togleFavorite(idLocalStorage)}
                     /></ButtonAction>
                     <ButtonAction>
-                    <FaTrashAlt   size='1.5rem'
+                    <FaTrashAlt   size='1rem'
                         onClick={() => {
                             handleClear(idLocalStorage)
                         }} /></ButtonAction>
+                         
+                    <ButtonAction>
+                    <NavbarLink  to={`/player/`} >
+                        <AiOutlineFullscreen   size='1rem' onClick={setCurrentMovie(currentMovie)} />
+                        </NavbarLink>
+                    </ButtonAction>
+                  
                 </VideoCardAction>
                 </VideoCardBody>
             </CardVideo>
@@ -65,19 +76,20 @@ function VideoCard({ image, title, views, likes, additionDate, idLocalStorage, f
 export default VideoCard
 
 const ButtonAction = styled.div<StyleProps>`
-    padding-bottom: 5px;
-    padding-top: 10px;
-    font-size: 15px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: 14px;
     text-align: center;
     border-radius: 10px;
     cursor: pointer;
     color:${({favourite}) => favourite === true
-            ? 'red'
+            ? '#ff2904'
             : null
-            };
+            }!important;
         &:hover {
             color:var(--Green2) !important;
          }
+    
 `
 
 const CardVideo = styled(FlexContanier)`
@@ -155,8 +167,20 @@ const VideoCardAction = styled.div`
         margin-top: 15px;
         margin-left: 240px;`
         
-   :` margin-top: 12px;
-   margin-bottom: 15px`} 
+   :` margin-top: 15px;
+   margin-bottom: 18px`} 
 `
 
 
+const NavbarLink = styled(Link)<StyleProps>`
+  margin-bottom: 2px;
+    margin-top: 2px;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    color: black;
+        &:hover {
+            color:var(--Green2) !important;
+         }
+`

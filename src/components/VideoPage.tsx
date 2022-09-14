@@ -52,9 +52,7 @@ const PageVideo=() => {
                                     url={video.aUrl}
                                     favourite={video.favourite}
                                     idLocalStorage={video.idLocalStorage}
-                                    
                                 >
-                                 
                                 </VideoCard>
                             </div>
                         </VideoPageVideo>
@@ -72,7 +70,6 @@ const PageVideo=() => {
                 setCurrentPage = {setCurrentPage}
                 filterVideos = {filterVideos}
                 currentMovie = {currentMovie}
-            
             />
         </VideoPage>
     )
