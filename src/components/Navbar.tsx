@@ -22,7 +22,7 @@ const NavbarComponent = () => {
         <NawbarBody>
             <NawbarBtnAll onClick={handleAll} status={status}><p>ALL VIDEOS</p></NawbarBtnAll>
             <NawbarBtn onClick={handleStatus} status={status}>
-                <p>FAVOURITE</p> <FaHeart size='1rem' color='red' id='heart' />
+                <p>FAVOURITE</p> <FaHeart size='1rem' color='#07028C' id='heart' />
             </NawbarBtn>
         </NawbarBody>
     );

@@ -39,6 +39,7 @@ export interface ContextTyp {
     handleCloseAprroved: ()=> void,
     handleCloseAprrovedSingle: (id:string)=> void,
     id: string,
+    setAlert: CallableFunction
   
    
   
@@ -105,6 +106,7 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
     function handleClearAll() {
         setAlert(config.message.alertAllDelete)
         handleShow();
+        
       
         
     }
@@ -122,12 +124,14 @@ export const VideoProvider = ({ children }: VideoProviderType)=> {
             return element.idLocalStorage !== idLocalStorage
         })
         setVideos(deletedVideos)
+        setAlert('')
       }
 
       const handleCloseAprrovedSingle = (idLocalStorage:string) => {
         setShow(false)
         successDeleteNotify()
         handleDelete(idLocalStorage)
+        setAlert('')
       
     };
 

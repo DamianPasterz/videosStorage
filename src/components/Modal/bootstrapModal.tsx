@@ -13,7 +13,7 @@ import { Omit, BsPrefixProps } from 'react-bootstrap/esm/helpers';
 
 function BootstrapModal(this: any, props: JSX.IntrinsicAttributes & Omit<Pick<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React.HTMLAttributes<HTMLDivElement>> & { ref?: ((instance: HTMLDivElement | null) => void) | React.RefObject<HTMLDivElement> | null | undefined; }, BsPrefixProps<"div"> & ModalProps> & BsPrefixProps<"div"> & ModalProps & { children?: React.ReactNode; }) {
 
-  const { handleClose ,show, handleCloseAprroved, handleCloseAprrovedSingle, id, currentMovie} = useVideoContext();
+  const { handleClose ,show, setAlert, handleCloseAprroved, handleCloseAprrovedSingle, id, currentMovie} = useVideoContext();
 
   
   return (
@@ -44,10 +44,19 @@ function BootstrapModal(this: any, props: JSX.IntrinsicAttributes & Omit<Pick<Re
                </ModalBody>
           {props.alert
             ? <Footer>
-              <ButtonModal color='#888C03' onClick={handleClose}>NO</ButtonModal>
+              <ButtonModal color='#888C03' onClick={()=>{
+                handleClose()
+                setAlert('')
+                }}>NO</ButtonModal>
               {props.alert===config.message.alertAllDelete
-                ? <ButtonModal color='#ff00008f' onClick={handleCloseAprroved}>YES</ButtonModal>
-                : <ButtonModal color='#ff00008f' onClick={() => {handleCloseAprrovedSingle(id)}}>YES</ButtonModal>
+                ? <ButtonModal color='#ff00008f' onClick={()=>{
+                  handleCloseAprroved()
+                  setAlert('')
+                }}>YES</ButtonModal>
+                : <ButtonModal color='#ff00008f' onClick={() => {
+                  handleCloseAprrovedSingle(id)
+                  setAlert('')
+                }}>YES</ButtonModal>
               }
               </Footer>
             : null }

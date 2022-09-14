@@ -83,7 +83,7 @@ const ButtonAction = styled.div<StyleProps>`
     border-radius: 10px;
     cursor: pointer;
     color:${({favourite}) => favourite === true
-            ? '#ff2904'
+            ? '#07028C'
             : null
             }!important;
         &:hover {
